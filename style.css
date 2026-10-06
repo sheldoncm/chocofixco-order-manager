@@ -7,106 +7,58 @@
 
 /* ===== CSS BOX MODEL =====
 
-   HTML elements can be thought of as boxes.
-
    MARGIN
    ┌─────────────────────────────┐
    │        BORDER               │
    │   ┌─────────────────────┐   │
    │   │      PADDING        │   │
-   │   │   ChocoFixCo        │   │
+   │   │      CONTENT        │   │
    │   └─────────────────────┘   │
    └─────────────────────────────┘
 
-   CONTENT = the actual text, image, button, etc.
-
-   PADDING = space INSIDE the element,
-             between the content and the border.
-
-   BORDER = the line around the element.
-
-   MARGIN = space OUTSIDE the element,
-            separating it from other elements.
-
-   Easy memory:
    MARGIN  = outside space
    PADDING = inside space
 */
 
 
 /* ===== PAGE STYLING ===== */
-/* body selects everything visible inside the HTML <body>. */
 
 body {
-    /* Changes the font used on the webpage. */
     font-family: Arial, sans-serif;
-
-    /* Removes the browser's automatic outside spacing. */
     margin: 0;
-
-    /* Changes the background colour of the webpage. */
     background-color: #f8f8f8;
 }
 
 
 /* ===== PAGE HEADER ===== */
-/* header selects the <header> element in index.html. */
 
 header {
-    /* Gives the header a dark chocolate background. */
     background-color: #5b2c2c;
-
-    /* Makes the text inside the header white. */
     color: white;
-
-    /* Adds 20px of space INSIDE the header. */
     padding: 20px;
 }
 
 
 /* ===== MAIN CONTENT ===== */
-/* main selects the <main> element in index.html. */
 
 main {
-    /* Limits how wide the main content can become. */
     max-width: 800px;
-
-    /*
-       auto divides the left and right space evenly.
-       This places the main content in the centre.
-    */
     margin: 30px auto;
-
-    /* Adds space inside the main area. */
     padding: 20px;
 }
 
 
-/* ===== ADD ORDER SECTION ===== */
-/* section selects the <section> element containing our form. */
+/* ===== SECTIONS ===== */
 
 section {
-    /* Makes the form section white. */
     background-color: white;
-
-    /* Adds space inside the section. */
     padding: 20px;
-
-    /* Adds a border around the section. */
     border: 1px solid #dddddd;
+    margin-bottom: 20px;
 }
 
 
 /* ===== ORDER FORM ===== */
-
-/*
-   FLEXBOX helps arrange elements.
-
-   display: flex turns on Flexbox.
-
-   flex-direction: column places the items
-   vertically from top to bottom.
-*/
 
 form {
     display: flex;
@@ -117,7 +69,6 @@ form {
 /* ===== FORM LABELS ===== */
 
 label {
-    /* Adds space above each label. */
     margin-top: 15px;
 }
 
@@ -125,59 +76,160 @@ label {
 /* ===== FORM INPUTS ===== */
 
 input {
-    /* Adds space INSIDE the input box. */
     padding: 10px;
-
-    /* Adds a border around the input box. */
     border: 1px solid #cccccc;
-
-    /* Adds space between the label and input. */
     margin-top: 5px;
 }
 
 
-/* ===== :FOCUS PSEUDO-CLASS ===== */
-
-/*
-   :focus means:
-   Apply this CSS when the user selects/clicks into an input.
-
-   Example:
-   Normal input → click inside it → :focus styling appears.
-*/
+/* ===== INPUT FOCUS ===== */
 
 input:focus {
     border: 2px solid #5b2c2c;
 }
 
 
-/* ===== ADD ORDER BUTTON ===== */
+/* ===== QUANTITY CONTROL ===== */
 
-button {
-    /* Adds space inside the button. */
-    padding: 10px;
+/*
+   Flexbox places these items horizontally:
 
-    /* Adds space above the button. */
-    margin-top: 20px;
+   -    quantity    +    Maximum 10
+*/
 
-    /* Chocolate-coloured button. */
-    background-color: #5b2c2c;
-
-    /* White button text. */
-    color: white;
-
-    /* Removes the normal browser button border. */
-    border: none;
+.quantity-control {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
 }
 
 
-/* ===== :HOVER PSEUDO-CLASS ===== */
+/* ===== QUANTITY INPUT ===== */
+
+.quantity-control input {
+    width: 70px;
+    text-align: center;
+}
+
+
+/* ===== REMOVE NATIVE NUMBER ARROWS ===== */
 
 /*
-   :hover means:
-   Apply this CSS when the mouse is placed over the button.
+   Browsers normally add small up/down arrows
+   to input type="number".
+
+   We already have our own larger - and +
+   buttons, so displaying both would create
+   duplicate controls.
+
+   This removes the small arrows in
+   Chrome, Edge and Safari.
 */
 
-button:hover {
+.quantity-control input::-webkit-inner-spin-button,
+.quantity-control input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/*
+   Firefox uses a different browser rule
+   for number inputs.
+*/
+
+.quantity-control input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+
+/* ===== QUANTITY BUTTONS ===== */
+
+/*
+   Larger buttons provide a better touch
+   target than the browser's tiny arrows.
+*/
+
+.quantity-control button {
+    width: 40px;
+    height: 40px;
+
+    padding: 0;
+    margin-top: 5px;
+
+    font-size: 20px;
+
+    background-color: #5b2c2c;
+    color: white;
+
+    border: none;
+
+    cursor: pointer;
+}
+
+
+/* ===== QUANTITY LIMIT MESSAGE ===== */
+
+/*
+   This tells the user about the limit
+   BEFORE they reach it.
+
+   Later JavaScript can change this text
+   according to the selected product.
+*/
+
+.quantity-limit {
+    margin-left: 5px;
+    font-size: 14px;
+    color: #666666;
+}
+
+
+/* ===== DISABLED QUANTITY BUTTON ===== */
+
+/*
+   JavaScript disables:
+
+   - at quantity 1
+   + at quantity 10
+
+   CSS changes the appearance so the user
+   can SEE that the button is unavailable.
+*/
+
+.quantity-control button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+
+/* ===== ADD ORDER BUTTON ===== */
+
+form > button {
+    padding: 10px;
+    margin-top: 20px;
+
+    background-color: #5b2c2c;
+    color: white;
+
+    border: none;
+
+    cursor: pointer;
+}
+
+
+/* ===== BUTTON HOVER ===== */
+
+/*
+   :not(:disabled) means:
+
+   Only apply the hover effect when
+   the button is NOT disabled.
+*/
+
+button:not(:disabled):hover {
     background-color: #7a4040;
 }

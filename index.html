@@ -17,7 +17,6 @@
 <body>
 
     <!-- ===== PAGE HEADER ===== -->
-    <!-- This section shows the application name and purpose. -->
     <header>
         <h1>ChocoFixCo</h1>
         <p>Order & Production Manager</p>
@@ -25,11 +24,9 @@
 
 
     <!-- ===== MAIN CONTENT ===== -->
-    <!-- The main application content goes inside this section. -->
     <main>
 
         <!-- ===== ADD ORDER SECTION ===== -->
-        <!-- This form collects information for a new customer order. -->
         <section>
 
             <h2>Add New Order</h2>
@@ -37,26 +34,100 @@
             <!-- ===== ORDER FORM ===== -->
             <form id="order-form">
 
-                <!-- Customer name -->
+                <!-- ===== CUSTOMER NAME ===== -->
                 <label for="customer-name">Customer Name</label>
                 <input type="text" id="customer-name" required>
 
-                <!-- Product -->
+
+                <!-- ===== PRODUCT ===== -->
                 <label for="product">Product</label>
                 <input type="text" id="product" required>
 
-                <!-- Quantity -->
+
+                <!-- ===== QUANTITY ===== -->
+                <!--
+                    Minimum quantity = 1
+                    Maximum quantity = 10
+
+                    We use our own large - and + buttons.
+
+                    The browser's small number arrows
+                    will be hidden using CSS.
+
+                    Later, the maximum can change
+                    depending on the selected product.
+                -->
                 <label for="quantity">Quantity</label>
-                <input type="number" id="quantity" min="1" required>
 
-                <!-- Collection date -->
+                <div class="quantity-control">
+
+                    <!-- Decrease quantity -->
+                    <button
+                        type="button"
+                        id="decrease-quantity"
+                        aria-label="Decrease quantity">
+                        −
+                    </button>
+
+                    <!-- Quantity input -->
+                    <input
+                        type="number"
+                        id="quantity"
+                        min="1"
+                        max="10"
+                        value="1"
+                        required>
+
+                    <!-- Increase quantity -->
+                    <button
+                        type="button"
+                        id="increase-quantity"
+                        aria-label="Increase quantity">
+                        +
+                    </button>
+
+                    <!--
+                        Shows the user the quantity limit.
+
+                        This manages expectations instead of
+                        making the user discover the limit
+                        only after reaching it.
+                    -->
+                    <span class="quantity-limit">
+                        Maximum 10
+                    </span>
+
+                </div>
+
+
+                <!-- ===== COLLECTION DATE ===== -->
                 <label for="collection-date">Collection Date</label>
-                <input type="date" id="collection-date" required>
 
-                <!-- Submit button -->
+                <input
+                    type="date"
+                    id="collection-date"
+                    required>
+
+
+                <!-- ===== SUBMIT BUTTON ===== -->
                 <button type="submit">Add Order</button>
 
             </form>
+
+        </section>
+
+
+        <!-- ===== ORDER LIST SECTION ===== -->
+        <section id="orders-section">
+
+            <h2>Orders</h2>
+
+            <!-- JavaScript will later display orders here -->
+            <div id="order-list">
+
+                <p>No orders yet.</p>
+
+            </div>
 
         </section>
 
@@ -64,8 +135,6 @@
 
 
     <!-- ===== JAVASCRIPT ===== -->
-    <!-- Connects this HTML page to our JavaScript file. -->
-    <!-- It is placed at the bottom so the HTML loads before JavaScript runs. -->
     <script src="script.js"></script>
 
 </body>
