@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Makes the webpage display correctly on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Connects our CSS file to this HTML page -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Text shown on the browser tab -->
+    <title>ChocoFixCo Order Manager</title>
+</head>
+
+<body>
+
+    <!-- ===== PAGE HEADER ===== -->
+    <!-- This section shows the application name and purpose. -->
+    <header>
+        <h1>ChocoFixCo</h1>
+        <p>Order & Production Manager</p>
+    </header>
+
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <!-- The main application content goes inside this section. -->
+    <main>
+
+        <!-- ===== ADD ORDER SECTION ===== -->
+        <!-- This form collects information for a new customer order. -->
+        <section>
+
+            <h2>Add New Order</h2>
+
+            <!-- ===== ORDER FORM ===== -->
+            <form id="order-form">
+
+                <!-- Customer name -->
+                <label for="customer-name">Customer Name</label>
+                <input type="text" id="customer-name" required>
+
+                <!-- Product -->
+                <label for="product">Product</label>
+                <input type="text" id="product" required>
+
+                <!-- Quantity -->
+                <label for="quantity">Quantity</label>
+                <input type="number" id="quantity" min="1" required>
+
+                <!-- Collection date -->
+                <label for="collection-date">Collection Date</label>
+                <input type="date" id="collection-date" required>
+
+                <!-- Submit button -->
+                <button type="submit">Add Order</button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <!-- Connects this HTML page to our JavaScript file. -->
+    <!-- It is placed at the bottom so the HTML loads before JavaScript runs. -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>

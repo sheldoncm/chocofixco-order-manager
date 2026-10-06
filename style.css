@@ -1,0 +1,63 @@
+/* =========================================================
+   CHOCOFIXCO - CSS NOTES
+   CSS controls HOW the webpage LOOKS.
+   ========================================================= */
+
+
+/* ===== CSS BOX MODEL =====
+
+   HTML elements can be thought of as boxes.
+
+   MARGIN
+   ┌─────────────────────────────┐
+   │        BORDER               │
+   │   ┌─────────────────────┐   │
+   │   │      PADDING        │   │
+   │   │   ChocoFixCo        │   │
+   │   └─────────────────────┘   │
+   └─────────────────────────────┘
+
+   CONTENT = the actual text, image, button, etc.
+
+   PADDING = space INSIDE the element,
+             between the content and the border.
+
+   BORDER  = the line around the element.
+
+   MARGIN  = space OUTSIDE the element,
+             separating it from other elements.
+
+   Easy memory:
+   MARGIN  = outside space
+   PADDING = inside space
+*/
+
+
+/* ===== PAGE STYLING ===== */
+/* body selects everything visible inside the HTML <body>. */
+
+body {
+    /* Changes the font used on the webpage. */
+    font-family: Arial, sans-serif;
+
+    /* Removes the browser's automatic outside spacing. */
+    margin: 0;
+
+    /* Changes the background colour of the webpage. */
+    background-color: #f8f8f8;
+}
+
+
+/* ===== PAGE HEADER ===== */
+/* header selects the <header> element in index.html. */
+
+header {
+    /* Gives the header a dark chocolate background. */
+    background-color: #5b2c2c;
+
+    /* Makes the text inside the header white. */
+    color: white;
+
+    /* Adds 20px of space INSIDE the header. */
+    padding: 20px;
+}
