@@ -5,7 +5,9 @@
    ========================================================= */
 
 
-/* ===== CSS BOX MODEL =====
+/* =========================================================
+   ===== CSS BOX MODEL =====
+   =========================================================
 
    MARGIN
    ┌─────────────────────────────┐
@@ -16,12 +18,23 @@
    │   └─────────────────────┘   │
    └─────────────────────────────┘
 
-   MARGIN  = outside space
-   PADDING = inside space
+   MARGIN
+   = space OUTSIDE an element
+
+   BORDER
+   = line around an element
+
+   PADDING
+   = space INSIDE an element
+
+   CONTENT
+   = text, image, button, etc.
 */
 
 
-/* ===== PAGE STYLING ===== */
+/* =========================================================
+   ===== PAGE STYLING =====
+   ========================================================= */
 
 body {
     font-family: Arial, sans-serif;
@@ -30,7 +43,9 @@ body {
 }
 
 
-/* ===== PAGE HEADER ===== */
+/* =========================================================
+   ===== PAGE HEADER =====
+   ========================================================= */
 
 header {
     background-color: #5b2c2c;
@@ -39,16 +54,20 @@ header {
 }
 
 
-/* ===== MAIN CONTENT ===== */
+/* =========================================================
+   ===== MAIN CONTENT =====
+   ========================================================= */
 
 main {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 30px auto;
     padding: 20px;
 }
 
 
-/* ===== SECTIONS ===== */
+/* =========================================================
+   ===== SECTIONS =====
+   ========================================================= */
 
 section {
     background-color: white;
@@ -58,7 +77,9 @@ section {
 }
 
 
-/* ===== ORDER FORM ===== */
+/* =========================================================
+   ===== ORDER FORM =====
+   ========================================================= */
 
 form {
     display: flex;
@@ -66,14 +87,18 @@ form {
 }
 
 
-/* ===== FORM LABELS ===== */
+/* =========================================================
+   ===== FORM LABELS =====
+   ========================================================= */
 
 label {
     margin-top: 15px;
 }
 
 
-/* ===== FORM INPUTS ===== */
+/* =========================================================
+   ===== FORM INPUTS =====
+   ========================================================= */
 
 input {
     padding: 10px;
@@ -82,20 +107,18 @@ input {
 }
 
 
-/* ===== INPUT FOCUS ===== */
+/* =========================================================
+   ===== INPUT FOCUS =====
+   ========================================================= */
 
 input:focus {
     border: 2px solid #5b2c2c;
 }
 
 
-/* ===== QUANTITY CONTROL ===== */
-
-/*
-   Flexbox places these items horizontally:
-
-   -    quantity    +    Maximum 10
-*/
+/* =========================================================
+   ===== QUANTITY CONTROL =====
+   ========================================================= */
 
 .quantity-control {
     display: flex;
@@ -113,18 +136,15 @@ input:focus {
 }
 
 
-/* ===== REMOVE NATIVE NUMBER ARROWS ===== */
+/* =========================================================
+   ===== REMOVE NATIVE NUMBER ARROWS =====
+   =========================================================
+   
+   Browsers normally show tiny up/down arrows
+   inside number inputs.
 
-/*
-   Browsers normally add small up/down arrows
-   to input type="number".
-
-   We already have our own larger - and +
-   buttons, so displaying both would create
-   duplicate controls.
-
-   This removes the small arrows in
-   Chrome, Edge and Safari.
+   We have our own larger - and + buttons,
+   so we hide the browser arrows.
 */
 
 .quantity-control input::-webkit-inner-spin-button,
@@ -134,23 +154,15 @@ input:focus {
 }
 
 
-/*
-   Firefox uses a different browser rule
-   for number inputs.
-*/
-
 .quantity-control input[type="number"] {
     -moz-appearance: textfield;
     appearance: textfield;
 }
 
 
-/* ===== QUANTITY BUTTONS ===== */
-
-/*
-   Larger buttons provide a better touch
-   target than the browser's tiny arrows.
-*/
+/* =========================================================
+   ===== QUANTITY BUTTONS =====
+   ========================================================= */
 
 .quantity-control button {
     width: 40px;
@@ -172,14 +184,6 @@ input:focus {
 
 /* ===== QUANTITY LIMIT MESSAGE ===== */
 
-/*
-   This tells the user about the limit
-   BEFORE they reach it.
-
-   Later JavaScript can change this text
-   according to the selected product.
-*/
-
 .quantity-limit {
     margin-left: 5px;
     font-size: 14px;
@@ -189,16 +193,6 @@ input:focus {
 
 /* ===== DISABLED QUANTITY BUTTON ===== */
 
-/*
-   JavaScript disables:
-
-   - at quantity 1
-   + at quantity 10
-
-   CSS changes the appearance so the user
-   can SEE that the button is unavailable.
-*/
-
 .quantity-control button:disabled {
     background-color: #cccccc;
     color: #666666;
@@ -206,7 +200,9 @@ input:focus {
 }
 
 
-/* ===== ADD ORDER BUTTON ===== */
+/* =========================================================
+   ===== ADD / UPDATE ORDER BUTTON =====
+   ========================================================= */
 
 form > button {
     padding: 10px;
@@ -221,15 +217,179 @@ form > button {
 }
 
 
-/* ===== BUTTON HOVER ===== */
+/* =========================================================
+   ===== FLEXBOX - ORDER CARD LAYOUT =====
+   =========================================================
 
-/*
+   FLEXBOX is a CSS layout system.
+
+   It helps us arrange elements:
+
+   HORIZONTALLY
+   or
+   VERTICALLY.
+
+
+   We want our order cards to appear like this:
+
+
+   DESKTOP
+
+   ┌────────────┐ ┌────────────┐ ┌────────────┐
+   │  Order 1   │ │  Order 2   │ │  Order 3   │
+   └────────────┘ └────────────┘ └────────────┘
+
+
+   display: flex
+   ----------------
+   Turns #order-list into a Flexbox container.
+
+
+   flex-wrap: wrap
+   ----------------
+   Allows cards to move onto the next row
+   when there is not enough space.
+
+
+   gap: 20px
+   ----------------
+   Creates space between the cards.
+*/
+
+#order-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+
+/* =========================================================
+   ===== ORDER CARD =====
+   =========================================================
+   
+   flex: 1 1 250px
+   
+   The card can:
+   
+   GROW
+   SHRINK
+   and starts around 250px wide.
+
+   max-width prevents the card becoming
+   too wide.
+
+   This gives us approximately 3 cards
+   next to each other on larger screens.
+*/
+
+.order-card {
+    flex: 1 1 250px;
+
+    max-width: 280px;
+
+    padding: 20px;
+
+    border: 1px solid #dddddd;
+
+    background-color: #ffffff;
+
+    box-sizing: border-box;
+}
+
+
+/* ===== ORDER CUSTOMER NAME ===== */
+
+.order-card h3 {
+    margin-top: 0;
+    color: #5b2c2c;
+}
+
+
+/* ===== ORDER INFORMATION ===== */
+
+.order-card p {
+    margin: 8px 0;
+}
+
+
+/* =========================================================
+   ===== ORDER CARD BUTTONS =====
+   ========================================================= */
+
+.order-card button {
+    padding: 8px 12px;
+
+    margin-top: 10px;
+    margin-right: 8px;
+
+    border: none;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   ===== EDIT BUTTON =====
+   ========================================================= */
+
+.edit-button {
+    background-color: #5b2c2c;
+    color: white;
+}
+
+
+/* =========================================================
+   ===== DELETE BUTTON =====
+   ========================================================= */
+
+.delete-button {
+    background-color: #dddddd;
+    color: #333333;
+}
+
+
+/* =========================================================
+   ===== PSEUDO-CLASS :HOVER =====
+   =========================================================
+   
+   :hover applies styling when the mouse
+   is placed over an element.
+
    :not(:disabled) means:
-
+   
    Only apply the hover effect when
    the button is NOT disabled.
 */
 
 button:not(:disabled):hover {
-    background-color: #7a4040;
+    opacity: 0.85;
+}
+
+
+/* =========================================================
+   ===== RESPONSIVE DESIGN =====
+   =========================================================
+   
+   @media allows CSS to change depending
+   on the screen size.
+
+   When the screen is 600px wide or smaller,
+   each order card takes the full width.
+
+   This is useful for mobile phones.
+*/
+
+@media (max-width: 600px) {
+
+    main {
+        margin: 10px auto;
+        padding: 10px;
+    }
+
+
+    .order-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
 }

@@ -7,14 +7,46 @@
 // =========================================================
 
 
+// =========================================================
 // ===== ARRAY =====
+// =========================================================
 //
 // Stores all our order objects.
 
 const orders = [];
 
 
+// =========================================================
+// ===== EDITING STATE =====
+// =========================================================
+//
+// JavaScript needs to remember whether we are:
+//
+// 1. Creating a NEW order
+// 2. Updating an EXISTING order
+//
+// -1 means we are NOT editing.
+//
+// Example:
+//
+// editingIndex = -1
+// → creating a new order
+//
+// editingIndex = 0
+// → editing the first order
+//
+// editingIndex = 1
+// → editing the second order
+
+let editingIndex = -1;
+
+
+// =========================================================
 // ===== DOM SELECTION =====
+// =========================================================
+//
+// JavaScript finds the HTML elements
+// that it needs to work with.
 
 const orderForm =
     document.getElementById("order-form");
@@ -41,13 +73,32 @@ const orderList =
     document.getElementById("order-list");
 
 
+// querySelector() finds an element
+// using a CSS selector.
+//
+// #order-form > button
+//
+// means:
+//
+// Find the button directly inside
+// the order form.
+
+const submitButton =
+    document.querySelector("#order-form > button");
+
+
+// =========================================================
 // ===== QUANTITY LIMITS =====
+// =========================================================
 
 const minimumQuantity = 1;
+
 const maximumQuantity = 10;
 
 
+// =========================================================
 // ===== UPDATE QUANTITY BUTTONS =====
+// =========================================================
 
 function updateQuantityButtons() {
 
@@ -63,7 +114,9 @@ function updateQuantityButtons() {
 }
 
 
+// =========================================================
 // ===== QUANTITY - BUTTON =====
+// =========================================================
 
 decreaseQuantityButton.addEventListener("click", function() {
 
@@ -85,7 +138,9 @@ decreaseQuantityButton.addEventListener("click", function() {
 });
 
 
+// =========================================================
 // ===== QUANTITY + BUTTON =====
+// =========================================================
 
 increaseQuantityButton.addEventListener("click", function() {
 
@@ -107,7 +162,9 @@ increaseQuantityButton.addEventListener("click", function() {
 });
 
 
+// =========================================================
 // ===== MANUAL QUANTITY INPUT =====
+// =========================================================
 
 quantityInput.addEventListener("input", function() {
 
@@ -115,13 +172,17 @@ quantityInput.addEventListener("input", function() {
         Number(quantityInput.value);
 
     if (currentQuantity < minimumQuantity) {
+
         quantityInput.value =
             minimumQuantity;
+
     }
 
     if (currentQuantity > maximumQuantity) {
+
         quantityInput.value =
             maximumQuantity;
+
     }
 
     updateQuantityButtons();
@@ -129,13 +190,15 @@ quantityInput.addEventListener("input", function() {
 });
 
 
-// Set the correct button state
-// when the page first loads.
+// Quantity starts at 1,
+// so the - button starts disabled.
 
 updateQuantityButtons();
 
 
+// =========================================================
 // ===== DATE PICKER =====
+// =========================================================
 
 collectionDateInput.addEventListener("click", function() {
 
@@ -145,41 +208,102 @@ collectionDateInput.addEventListener("click", function() {
 
 
 // =========================================================
+// ===== DATE VALIDATION =====
+// =========================================================
+//
+// Collection dates cannot be in the past.
+
+const today =
+    new Date();
+
+const year =
+    today.getFullYear();
+
+
+// JavaScript counts months from 0,
+// so we add 1.
+//
+// padStart() ensures two digits.
+
+const month =
+    String(today.getMonth() + 1).padStart(2, "0");
+
+const day =
+    String(today.getDate()).padStart(2, "0");
+
+
+// HTML date inputs require:
+//
+// YYYY-MM-DD
+
+const todayDate =
+    `${year}-${month}-${day}`;
+
+collectionDateInput.min =
+    todayDate;
+
+
+// =========================================================
 // ===== DISPLAY ORDERS FUNCTION =====
 // =========================================================
 //
-// This function displays all the orders
-// currently stored inside our array.
+// Reads our orders array and displays
+// the orders on the webpage.
 
 function displayOrders() {
 
-    // Clear the old display first.
+
+    // ===== CLEAR OLD DISPLAY =====
 
     orderList.innerHTML = "";
 
 
+    // =====================================================
     // ===== LOOP =====
+    // =====================================================
     //
-    // We need the index because it tells us
-    // which order we want to delete.
+    // Start at index 0.
     //
-    // index starts at 0.
+    // Keep going while index is smaller
+    // than the number of orders.
     //
-    // Example:
-    //
-    // orders[0] = first order
-    // orders[1] = second order
-    // orders[2] = third order
+    // index++ means move to the next number.
 
     for (let index = 0; index < orders.length; index++) {
 
-        const order = orders[index];
+
+        // Get the current order.
+
+        const order =
+            orders[index];
 
 
+        // =================================================
         // ===== CREATE ORDER CARD =====
+        // =================================================
+        //
+        // JavaScript creates a new <div>.
 
         const orderCard =
             document.createElement("div");
+
+
+        // =================================================
+        // ===== ADD CSS CLASS =====
+        // =================================================
+        //
+        // classList.add() gives our new <div>
+        // a CSS class.
+        //
+        // JavaScript creates:
+        //
+        // <div class="order-card">
+        //
+        // CSS can now style it using:
+        //
+        // .order-card
+
+        orderCard.classList.add("order-card");
 
 
         // ===== DISPLAY ORDER INFORMATION =====
@@ -193,73 +317,134 @@ function displayOrders() {
 
 
         // =================================================
+        // ===== CRUD: UPDATE - EDIT BUTTON =====
+        // =================================================
+
+        const editButton =
+            document.createElement("button");
+
+        editButton.textContent =
+            "Edit Order";
+
+
+        // Give the Edit button a CSS class.
+
+        editButton.classList.add("edit-button");
+
+
+        // ===== EDIT EVENT =====
+
+        editButton.addEventListener("click", function() {
+
+
+            // Remember which order
+            // is being edited.
+
+            editingIndex =
+                index;
+
+
+            // Put existing order data
+            // back into the form.
+
+            customerNameInput.value =
+                order.customerName;
+
+            productInput.value =
+                order.product;
+
+            quantityInput.value =
+                order.quantity;
+
+            collectionDateInput.value =
+                order.collectionDate;
+
+
+            // Update quantity buttons.
+
+            updateQuantityButtons();
+
+
+            // Change submit button text.
+
+            submitButton.textContent =
+                "Update Order";
+
+
+            // =================================================
+            // ===== SCROLL TO FORM =====
+            // =================================================
+            //
+            // Move the user back to the form
+            // after clicking Edit Order.
+
+            orderForm.scrollIntoView({
+
+                behavior: "smooth",
+
+                block: "start"
+
+            });
+
+        });
+
+
+        // Put Edit button into order card.
+
+        orderCard.appendChild(editButton);
+
+
+        // =================================================
         // ===== CRUD: DELETE =====
         // =================================================
 
-        // Create a Delete button using JavaScript.
-
         const deleteButton =
             document.createElement("button");
-
-
-        // Put text inside the button.
 
         deleteButton.textContent =
             "Delete Order";
 
 
-        // Listen for the Delete button being clicked.
+        // Give Delete button a CSS class.
+
+        deleteButton.classList.add("delete-button");
+
+
+        // ===== DELETE EVENT =====
 
         deleteButton.addEventListener("click", function() {
 
 
-            // ===== SPLICE =====
-            //
-            // splice() removes something from an array.
-            //
-            // index = where to start.
-            //
-            // 1 = remove ONE item.
-            //
-            // Example:
-            //
-            // orders.splice(1, 1)
-            //
-            // means:
-            // start at index 1
-            // and remove 1 order.
+            // Remove ONE order
+            // at the current index.
 
             orders.splice(index, 1);
 
 
-            // Display the array again.
-            //
-            // Because the order has now been removed,
-            // it will disappear from the webpage.
+            // Display the updated array.
 
             displayOrders();
 
         });
 
 
-        // Put the Delete button
-        // inside the order card.
+        // Put Delete button into order card.
 
         orderCard.appendChild(deleteButton);
 
 
-        // Put the completed order card
-        // onto the webpage.
+        // =================================================
+        // ===== ADD ORDER CARD TO DOM =====
+        // =================================================
 
         orderList.appendChild(orderCard);
 
     }
 
 
+    // =====================================================
     // ===== EMPTY ORDER LIST =====
-    //
-    // When all orders have been deleted,
-    // show the original message again.
+    // =====================================================
 
     if (orders.length === 0) {
 
@@ -277,10 +462,15 @@ function displayOrders() {
 
 orderForm.addEventListener("submit", function(event) {
 
+
+    // Stop browser page refresh.
+
     event.preventDefault();
 
 
+    // =====================================================
     // ===== READ INPUT VALUES =====
+    // =====================================================
 
     const customerName =
         customerNameInput.value;
@@ -295,7 +485,9 @@ orderForm.addEventListener("submit", function(event) {
         collectionDateInput.value;
 
 
+    // =====================================================
     // ===== OBJECT =====
+    // =====================================================
     //
     // One order = one object.
 
@@ -312,17 +504,63 @@ orderForm.addEventListener("submit", function(event) {
     };
 
 
+    // =====================================================
+    // ===== BRANCHING =====
+    // =====================================================
+    //
+    // JavaScript decides:
+    //
+    // CREATE or UPDATE?
+
+
+    // =====================================================
     // ===== CRUD: CREATE =====
-    //
-    // Add the new order to our array.
+    // =====================================================
 
-    orders.push(order);
+    if (editingIndex === -1) {
+
+        orders.push(order);
+
+    }
 
 
+    // =====================================================
+    // ===== CRUD: UPDATE =====
+    // =====================================================
+
+    else {
+
+        orders[editingIndex] =
+            order;
+
+
+        // Editing is finished.
+
+        editingIndex =
+            -1;
+
+
+        // Change button back.
+
+        submitButton.textContent =
+            "Add Order";
+
+    }
+
+
+    // =====================================================
     // ===== CRUD: READ =====
-    //
-    // Display the orders.
+    // =====================================================
 
     displayOrders();
+
+
+    // =====================================================
+    // ===== RESET FORM =====
+    // =====================================================
+
+    orderForm.reset();
+
+    updateQuantityButtons();
 
 });
