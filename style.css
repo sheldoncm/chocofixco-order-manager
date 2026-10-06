@@ -1,5 +1,6 @@
 /* =========================================================
    CHOCOFIXCO - CSS NOTES
+
    CSS controls HOW the webpage LOOKS.
    ========================================================= */
 
@@ -22,10 +23,10 @@
    PADDING = space INSIDE the element,
              between the content and the border.
 
-   BORDER  = the line around the element.
+   BORDER = the line around the element.
 
-   MARGIN  = space OUTSIDE the element,
-             separating it from other elements.
+   MARGIN = space OUTSIDE the element,
+            separating it from other elements.
 
    Easy memory:
    MARGIN  = outside space
@@ -60,4 +61,123 @@ header {
 
     /* Adds 20px of space INSIDE the header. */
     padding: 20px;
+}
+
+
+/* ===== MAIN CONTENT ===== */
+/* main selects the <main> element in index.html. */
+
+main {
+    /* Limits how wide the main content can become. */
+    max-width: 800px;
+
+    /*
+       auto divides the left and right space evenly.
+       This places the main content in the centre.
+    */
+    margin: 30px auto;
+
+    /* Adds space inside the main area. */
+    padding: 20px;
+}
+
+
+/* ===== ADD ORDER SECTION ===== */
+/* section selects the <section> element containing our form. */
+
+section {
+    /* Makes the form section white. */
+    background-color: white;
+
+    /* Adds space inside the section. */
+    padding: 20px;
+
+    /* Adds a border around the section. */
+    border: 1px solid #dddddd;
+}
+
+
+/* ===== ORDER FORM ===== */
+
+/*
+   FLEXBOX helps arrange elements.
+
+   display: flex turns on Flexbox.
+
+   flex-direction: column places the items
+   vertically from top to bottom.
+*/
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ===== FORM LABELS ===== */
+
+label {
+    /* Adds space above each label. */
+    margin-top: 15px;
+}
+
+
+/* ===== FORM INPUTS ===== */
+
+input {
+    /* Adds space INSIDE the input box. */
+    padding: 10px;
+
+    /* Adds a border around the input box. */
+    border: 1px solid #cccccc;
+
+    /* Adds space between the label and input. */
+    margin-top: 5px;
+}
+
+
+/* ===== :FOCUS PSEUDO-CLASS ===== */
+
+/*
+   :focus means:
+   Apply this CSS when the user selects/clicks into an input.
+
+   Example:
+   Normal input → click inside it → :focus styling appears.
+*/
+
+input:focus {
+    border: 2px solid #5b2c2c;
+}
+
+
+/* ===== ADD ORDER BUTTON ===== */
+
+button {
+    /* Adds space inside the button. */
+    padding: 10px;
+
+    /* Adds space above the button. */
+    margin-top: 20px;
+
+    /* Chocolate-coloured button. */
+    background-color: #5b2c2c;
+
+    /* White button text. */
+    color: white;
+
+    /* Removes the normal browser button border. */
+    border: none;
+}
+
+
+/* ===== :HOVER PSEUDO-CLASS ===== */
+
+/*
+   :hover means:
+   Apply this CSS when the mouse is placed over the button.
+*/
+
+button:hover {
+    background-color: #7a4040;
 }
