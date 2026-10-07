@@ -393,3 +393,67 @@ button:not(:disabled):hover {
     }
 
 }
+
+/* =========================================================
+   ===== SELECT INPUTS =====
+   ========================================================= */
+
+select {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    margin-top: 5px;
+    background-color: white;
+}
+
+select:focus {
+    border: 2px solid #5b2c2c;
+}
+
+
+/* =========================================================
+   ===== LO9: UI / UX - DASHBOARD =====
+   =========================================================
+
+   The dashboard gives the user immediate feedback
+   about production workload.
+
+   FLEXBOX makes the cards responsive and readable.
+*/
+
+.dashboard-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.summary-card {
+    flex: 1 1 150px;
+    padding: 15px;
+    border: 1px solid #dddddd;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.summary-card span {
+    display: block;
+    font-size: 28px;
+    font-weight: bold;
+    color: #5b2c2c;
+}
+
+.summary-card p {
+    margin: 5px 0 0;
+}
+
+
+/* =========================================================
+   ===== MOBILE DASHBOARD =====
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .summary-card {
+        flex: 1 1 45%;
+    }
+
+}
