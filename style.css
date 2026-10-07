@@ -144,6 +144,28 @@ h3 {
    ===== HERO =====
    ========================================================= */
 
+
+/* =========================================================
+   ===== HERO CAROUSEL + FLOATING CTA STUDY NOTES =====
+
+   CAROUSEL:
+   Several images share one display area.
+   JavaScript changes the <img> src property.
+
+   FLOATING CTA:
+   CTA means Call To Action.
+   .hero-visual uses position: relative.
+   .hero-floating-cta uses position: absolute.
+   Therefore the CTA can sit OVER the hero image.
+
+   ORAL ANSWER:
+   "The carousel uses an array, an index, click events and
+   DOM manipulation. The floating CTA uses CSS positioning."
+
+   On mobile the controls remain large enough to tap and
+   the CTA stays visible over the responsive image.
+   ========================================================= */
+
 .hero {
     max-width: 1180px;
     min-height: 520px;
@@ -209,6 +231,7 @@ h3 {
 }
 
 .hero-visual {
+    position: relative;
     min-height: 390px;
     overflow: hidden;
     border-radius: 28px;
@@ -219,6 +242,67 @@ h3 {
     width: 100%;
     height: 390px;
     object-fit: cover;
+}
+
+/* ===== FLOATING CTA ===== */
+.hero-floating-cta {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    z-index: 3;
+    padding: 13px 20px;
+    border-radius: 6px;
+    background-color: #6b2f12;
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* ===== CAROUSEL CONTROLS ===== */
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background-color: rgba(255, 249, 241, 0.88);
+    color: #4a2115;
+    font-size: 30px;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+.carousel-previous {
+    left: 14px;
+}
+
+.carousel-next {
+    right: 14px;
+}
+
+.carousel-dots {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    z-index: 3;
+    display: flex;
+    gap: 8px;
+}
+
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.carousel-dot.active {
+    background-color: #ffffff;
 }
 
 
@@ -567,6 +651,21 @@ footer p {
 
     .hero-visual img {
         height: 300px;
+    }
+
+    .hero-floating-cta {
+        left: 18px;
+        bottom: 18px;
+    }
+
+    .carousel-dots {
+        right: 18px;
+        bottom: 18px;
+    }
+
+    .carousel-button {
+        width: 42px;
+        height: 42px;
     }
 
     /* ===== RESPONSIVE CARDS ===== */
