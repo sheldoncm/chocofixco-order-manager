@@ -4,6 +4,28 @@
 // HTML = WHAT is on the page
 // CSS  = HOW it looks
 // JS   = WHAT it does
+//
+// ===== ASSESSMENT EVIDENCE MAP =====
+// LO4 Variables / functions / branching / loops:
+//     orders, editingIndex, functions, if/else, for loops
+// LO5 Arrays / objects:
+//     orders[] and heroSlides[] contain objects
+// LO6 Structured programming:
+//     reusable functions divide responsibilities
+// LO7 DOM:
+//     selection + src / alt / value / disabled / textContent
+// LO8 Events:
+//     click, input and submit event listeners
+// LO9 UI/UX:
+//     responsive CSS, hamburger menu, carousel, accessible labels
+// LO10 Async:
+//     async functions + await
+// LO11 AJAX / HTTP:
+//     Axios GET + PUT
+// LO12 REST API / SaaS:
+//     JSONBin API configured in data.js
+// CRUD:
+//     Create, Read, Update and Delete/Cancel customer orders
 // =========================================================
 
 
@@ -208,6 +230,8 @@ for (const navigationLink of mobileNavigationLinks) {
 // =========================================================
 //
 // CAROUSEL = multiple images displayed in the same area.
+// The floating "Shop Chocolates" CTA is positioned in CSS.
+// It is kept separate from the carousel logic.
 //
 // Q: Where is the ARRAY?
 // A: heroSlides stores three OBJECTS inside an ARRAY.
@@ -732,9 +756,19 @@ function setOrderCardContent(element, content) {
 // The customer order cards below demonstrate DOM selection
 // and DOM property changes.
 //
-// Examples:
-// innerHTML, textContent, value, disabled,
-// classList.add(), createElement() and appendChild().
+// ASSESSMENT: modify at least 3 properties across 2 DOM elements.
+//
+// Examples in this project:
+// 1. heroCarouselImage.src
+// 2. heroCarouselImage.alt
+// 3. quantityInput.value
+// 4. decreaseQuantityButton.disabled
+// 5. submitButton.textContent
+//
+// We therefore exceed the minimum requirement.
+//
+// Other DOM methods used:
+// innerHTML, classList.add(), createElement(), appendChild().
 //
 // ORAL ANSWER:
 // "I use JavaScript to select HTML elements and change
@@ -1031,7 +1065,7 @@ for (const productOrderLink of productOrderLinks) {
 //
 // Examples in this project:
 //
-// click  -> quantity buttons, Edit, Delete
+// click  -> hamburger, carousel, quantity, Edit, Delete
 // input  -> manual quantity change
 // submit -> Add/Update order
 //
@@ -1076,6 +1110,29 @@ orderForm.addEventListener("submit", async function(event) {
 // The customer does not choose operational status.
 // New orders start as Order Received and Pending payment.
 
+    // Default values for a NEW order.
+
+    let orderStatus =
+        "Order Received";
+
+    let paymentStatus =
+        "Pending";
+
+
+    // When editing, keep the existing status values.
+    // || is a LOGICAL OPERATOR and provides a fallback.
+
+    if (editingIndex !== -1) {
+
+        orderStatus =
+            orders[editingIndex].orderStatus || "Order Received";
+
+        paymentStatus =
+            orders[editingIndex].paymentStatus || "Pending";
+
+    }
+
+
     const order = {
 
         customerName: customerName,
@@ -1086,15 +1143,9 @@ orderForm.addEventListener("submit", async function(event) {
 
         collectionDate: collectionDate,
 
-        orderStatus:
-            editingIndex === -1
-                ? "Order Received"
-                : orders[editingIndex].orderStatus || "Order Received",
+        orderStatus: orderStatus,
 
-        paymentStatus:
-            editingIndex === -1
-                ? "Pending"
-                : orders[editingIndex].paymentStatus || "Pending"
+        paymentStatus: paymentStatus
 
     };
 
