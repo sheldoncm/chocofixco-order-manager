@@ -13,7 +13,10 @@
 //
 // Stores all our order objects.
 
-const orders = [];
+// GET will replace this with the array stored in JSONBin,
+// therefore this variable must be declared with let.
+
+let orders = [];
 
 
 // =========================================================
@@ -244,6 +247,172 @@ collectionDateInput.min =
 
 
 // =========================================================
+// ===== LO10 / LO11 / LO12: AJAX + ASYNC + API =====
+// =========================================================
+//
+// ORAL ANSWER:
+//
+// AJAX allows JavaScript to send HTTP requests to an API
+// and receive data without reloading the whole webpage.
+//
+// Axios is the library used to make the HTTP requests.
+//
+// async / await handles the asynchronous operation.
+// JavaScript waits for the API response, then works
+// with the returned result.
+//
+// JSONBin is our external SaaS REST API.
+//
+// HTTP GET = READ data.
+// HTTP PUT = UPDATE/REPLACE the JSON document.
+// =========================================================
+
+
+// =========================================================
+// ===== HTTP GET / CRUD READ =====
+// =========================================================
+//
+// The lecturer's Axios style is:
+//
+// const { data } = await axios.get(...);
+//
+// { data } extracts the data property
+// from the Axios response object.
+//
+// JSONBin returns:
+//
+// {
+//     "record": {
+//         "orders": []
+//     }
+// }
+//
+// Therefore the array is:
+// data.record.orders
+
+async function getOrders() {
+
+    try {
+
+        const { data } =
+            await axios.get(
+                JSONBIN_LATEST_URL,
+                {
+                    headers: JSONBIN_HEADERS
+                }
+            );
+
+        // ===== ARRAY CHECK =====
+
+        if (Array.isArray(data.record.orders)) {
+
+            orders =
+                data.record.orders;
+
+        }
+
+        else {
+
+            orders =
+                [];
+
+        }
+
+
+        // Function call:
+        // display the API result in the DOM.
+
+        displayOrders();
+
+        console.log(
+            "GET orders:",
+            orders
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Could not load orders:",
+            error
+        );
+
+        orderList.innerHTML =
+            "<p>Could not load orders.</p>";
+
+    }
+
+}
+
+
+// =========================================================
+// ===== HTTP PUT =====
+// =========================================================
+//
+// JSONBin stores ONE JSON document:
+//
+// {
+//     "orders": [ ... ]
+// }
+//
+// Our application changes objects inside the orders array,
+// then PUT saves the complete updated document.
+//
+// IMPORTANT ORAL ANSWER:
+//
+// The app has CRUD functionality for individual orders.
+//
+// JSONBin itself stores the orders as one document,
+// therefore Create/Edit/Delete modify the JavaScript array
+// and HTTP PUT persists the changed array.
+//
+// Calling JSONBin DELETE would delete the whole bin,
+// not one order.
+
+async function saveOrders() {
+
+    const updatedData = {
+
+        orders: orders
+
+    };
+
+    await axios.put(
+        JSONBIN_URL,
+        updatedData,
+        {
+            headers: JSONBIN_HEADERS
+        }
+    );
+
+    console.log(
+        "PUT orders:",
+        orders
+    );
+
+}
+
+
+// =========================================================
+// ===== DOM MANIPULATION / CRUD READ =====
+// =========================================================
+//
+// displayOrders() changes the webpage using the DOM.
+//
+// Examples below include:
+//
+// innerHTML
+// textContent
+// classList.add()
+// createElement()
+// appendChild()
+//
+// These satisfy DOM interaction requirements.
+// =========================================================
+
+
+// =========================================================
 // ===== DISPLAY ORDERS FUNCTION =====
 // =========================================================
 //
@@ -412,18 +581,41 @@ function displayOrders() {
 
         // ===== DELETE EVENT =====
 
-        deleteButton.addEventListener("click", function() {
+        deleteButton.addEventListener("click", async function() {
 
 
-            // Remove ONE order
-            // at the current index.
+            // Remove ONE order from the ARRAY.
+            //
+            // splice() changes the array.
 
             orders.splice(index, 1);
 
 
-            // Display the updated array.
+            // HTTP PUT saves the changed array
+            // to JSONBin.
 
-            displayOrders();
+            try {
+
+                await saveOrders();
+
+                displayOrders();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Could not delete order:",
+                    error
+                );
+
+
+                // Reload the API version so our
+                // local array stays in sync.
+
+                await getOrders();
+
+            }
 
         });
 
@@ -457,13 +649,29 @@ function displayOrders() {
 
 
 // =========================================================
+// ===== LO8: EVENT DRIVEN PROGRAMMING =====
 // ===== FORM SUBMIT EVENT =====
 // =========================================================
+//
+// ORAL ANSWER:
+//
+// Event-driven programming means the program responds
+// when the user performs an action.
+//
+// Examples in this project:
+//
+// click  -> quantity buttons, Edit, Delete
+// input  -> manual quantity change
+// submit -> Add/Update order
+//
+// addEventListener() connects the event to a function.
+// =========================================================
 
-orderForm.addEventListener("submit", function(event) {
+orderForm.addEventListener("submit", async function(event) {
 
 
-    // Stop browser page refresh.
+    // preventDefault() stops the browser
+    // from refreshing when the form submits.
 
     event.preventDefault();
 
@@ -479,17 +687,20 @@ orderForm.addEventListener("submit", function(event) {
         productInput.value;
 
     const quantity =
-        quantityInput.value;
+        Number(quantityInput.value);
 
     const collectionDate =
         collectionDateInput.value;
 
 
     // =====================================================
-    // ===== OBJECT =====
+    // ===== LO5: OBJECT =====
     // =====================================================
     //
-    // One order = one object.
+    // One order is represented by one object.
+    //
+    // It has properties:
+    // customerName, product, quantity, collectionDate.
 
     const order = {
 
@@ -505,12 +716,15 @@ orderForm.addEventListener("submit", function(event) {
 
 
     // =====================================================
-    // ===== BRANCHING =====
+    // ===== LO4: BRANCHING / COMPARISON =====
     // =====================================================
     //
-    // JavaScript decides:
+    // === is a comparison operator.
     //
-    // CREATE or UPDATE?
+    // if / else is branching.
+    //
+    // The program decides whether the user
+    // is creating or updating an order.
 
 
     // =====================================================
@@ -518,6 +732,8 @@ orderForm.addEventListener("submit", function(event) {
     // =====================================================
 
     if (editingIndex === -1) {
+
+        // push() adds the object to the ARRAY.
 
         orders.push(order);
 
@@ -533,14 +749,11 @@ orderForm.addEventListener("submit", function(event) {
         orders[editingIndex] =
             order;
 
-
-        // Editing is finished.
-
         editingIndex =
             -1;
 
-
-        // Change button back.
+        // DOM property modification:
+        // textContent changes the button text.
 
         submitButton.textContent =
             "Add Order";
@@ -548,19 +761,78 @@ orderForm.addEventListener("submit", function(event) {
     }
 
 
-    // =====================================================
-    // ===== CRUD: READ =====
-    // =====================================================
+    try {
 
-    displayOrders();
+        // =================================================
+        // ===== LO10: ASYNCHRONOUS OPERATION =====
+        // ===== LO11: AJAX HTTP PUT =====
+        // =================================================
+        //
+        // await waits until saveOrders() finishes.
+
+        await saveOrders();
 
 
-    // =====================================================
-    // ===== RESET FORM =====
-    // =====================================================
+        // =================================================
+        // ===== CRUD: READ / DOM UPDATE =====
+        // =================================================
 
-    orderForm.reset();
+        displayOrders();
 
-    updateQuantityButtons();
+
+        // Reset the HTML form.
+
+        orderForm.reset();
+
+        updateQuantityButtons();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Could not save order:",
+            error
+        );
+
+        await getOrders();
+
+    }
 
 });
+
+
+// =========================================================
+// ===== LO6: STRUCTURED PROGRAMMING =====
+// =========================================================
+//
+// ORAL ANSWER:
+//
+// Instead of putting everything into one large block,
+// the application is divided into functions with
+// specific responsibilities.
+//
+// Examples:
+//
+// updateQuantityButtons()
+// getOrders()
+// saveOrders()
+// displayOrders()
+//
+// This makes the program easier to read,
+// test and maintain.
+// =========================================================
+
+
+// =========================================================
+// ===== INITIAL API CALL =====
+// =========================================================
+//
+// When the webpage opens:
+//
+// 1. getOrders() sends an AJAX HTTP GET.
+// 2. Axios receives JSON from JSONBin.
+// 3. orders receives the array.
+// 4. displayOrders() updates the DOM.
+
+getOrders();
