@@ -1,75 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-
-    <!-- Makes the webpage display correctly on mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Connects our CSS file to this HTML page -->
+    <title>ChocoFixCo | Handmade Chocolate Orders</title>
     <link rel="stylesheet" href="style.css">
-
-    <!-- Text shown on the browser tab -->
-    <title>ChocoFixCo Order Manager</title>
 </head>
 
 <body>
 
-    <!-- ===== PAGE HEADER ===== -->
-    <header>
-        <h1>ChocoFixCo</h1>
-        <p>Order & Production Manager</p>
+    <!-- ===== CUSTOMER-FACING NAVIGATION ===== -->
+    <header class="site-header">
+        <nav class="nav-container" aria-label="Main navigation">
+            <a class="brand" href="#home">ChocoFixCo</a>
+
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#chocolates">Chocolates</a>
+                <a href="#my-orders">My Orders</a>
+                <a class="nav-order-button" href="#order-now">Order Now</a>
+            </div>
+        </nav>
     </header>
 
 
-    <!-- ===== MAIN CONTENT ===== -->
     <main>
 
-        <!-- ===== ADD ORDER SECTION ===== -->
-        <section>
+        <!-- =================================================
+             ===== HOME / HERO =====
+             =================================================
+             This is a CUSTOMER-FACING website.
+             The hero explains the product and gives the user
+             one clear action: Order Now.
+        -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <p class="eyebrow">HANDMADE CHOCOLATE TREATS</p>
+                <h1>A little chocolate.<br>A lot of happiness.</h1>
+                <p class="hero-copy">
+                    Choose your ChocoFixCo favourite and place your
+                    collection order in just a few steps.
+                </p>
 
-            <h2>Add New Order</h2>
+                <div class="hero-actions">
+                    <a class="primary-button" href="#chocolates">Explore Chocolates</a>
+                    <a class="secondary-button" href="#order-now">Order Now</a>
+                </div>
+            </div>
 
-            <!-- ===== ORDER FORM ===== -->
-            <form id="order-form">
+            <div class="hero-visual" aria-label="Decorative chocolate display">
+                <div class="chocolate-shape chocolate-one"></div>
+                <div class="chocolate-shape chocolate-two"></div>
+                <div class="chocolate-shape chocolate-three"></div>
+                <p>Made for gifting,<br>sharing & treating yourself.</p>
+            </div>
+        </section>
 
-                <!-- ===== CUSTOMER NAME ===== -->
-                <label for="customer-name">Customer Name</label>
+
+        <!-- ===== PRODUCT COLLECTION ===== -->
+        <section id="chocolates" class="content-section">
+            <div class="section-heading">
+                <p class="eyebrow">OUR COLLECTION</p>
+                <h2>Choose your chocolate</h2>
+                <p>Simple favourites for every kind of chocolate moment.</p>
+            </div>
+
+            <div class="product-grid">
+                <article class="product-card">
+                    <div class="product-image product-image-one">🍫</div>
+                    <h3>Chocolate Box</h3>
+                    <p>A classic selection of chocolate treats.</p>
+                    <a href="#order-now" class="product-order-link" data-product="Chocolate Box">Order this</a>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image product-image-two">🎁</div>
+                    <h3>Chocolate Gift Set</h3>
+                    <p>A chocolate selection made for gifting.</p>
+                    <a href="#order-now" class="product-order-link" data-product="Chocolate Gift Set">Order this</a>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image product-image-three">✨</div>
+                    <h3>Custom Chocolate Order</h3>
+                    <p>A flexible choice for a special occasion.</p>
+                    <a href="#order-now" class="product-order-link" data-product="Custom Chocolate Order">Order this</a>
+                </article>
+            </div>
+        </section>
+
+
+        <!-- ===== ORDER FORM ===== -->
+        <section id="order-now" class="order-section">
+            <div class="section-heading">
+                <p class="eyebrow">ORDER NOW</p>
+                <h2>Place your order</h2>
+                <p>Tell us what you would like and choose your collection date.</p>
+            </div>
+
+            <form id="order-form" class="order-form">
+
+                <label for="customer-name">Your Name</label>
                 <input type="text" id="customer-name" required>
 
+                <label for="product">Chocolate</label>
+                <select id="product" required>
+                    <option value="">Choose a chocolate</option>
+                    <option value="Chocolate Box">Chocolate Box</option>
+                    <option value="Chocolate Gift Set">Chocolate Gift Set</option>
+                    <option value="Custom Chocolate Order">Custom Chocolate Order</option>
+                    <option value="Party Pack">Party Pack</option>
+                    <option value="Seasonal Box">Seasonal Box</option>
+                </select>
 
-                <!-- ===== PRODUCT ===== -->
-                <label for="product">Product</label>
-                <input type="text" id="product" required>
-
-
-                <!-- ===== QUANTITY ===== -->
-                <!--
-                    Minimum quantity = 1
-                    Maximum quantity = 10
-
-                    We use our own large - and + buttons.
-
-                    The browser's small number arrows
-                    will be hidden using CSS.
-
-                    Later, the maximum can change
-                    depending on the selected product.
-                -->
                 <label for="quantity">Quantity</label>
-
                 <div class="quantity-control">
+                    <button type="button" id="decrease-quantity" aria-label="Decrease quantity">−</button>
 
-                    <!-- Decrease quantity -->
-                    <button
-                        type="button"
-                        id="decrease-quantity"
-                        aria-label="Decrease quantity">
-                        −
-                    </button>
-
-                    <!-- Quantity input -->
                     <input
                         type="number"
                         id="quantity"
@@ -78,128 +125,53 @@
                         value="1"
                         required>
 
-                    <!-- Increase quantity -->
-                    <button
-                        type="button"
-                        id="increase-quantity"
-                        aria-label="Increase quantity">
-                        +
-                    </button>
-
-                    <!--
-                        Shows the user the quantity limit.
-
-                        This manages expectations instead of
-                        making the user discover the limit
-                        only after reaching it.
-                    -->
-                    <span class="quantity-limit">
-                        Maximum 10
-                    </span>
-
+                    <button type="button" id="increase-quantity" aria-label="Increase quantity">+</button>
+                    <span class="quantity-limit">Maximum 10</span>
                 </div>
 
-
-                <!-- ===== ORDER STATUS ===== -->
-                <label for="order-status">Order Status</label>
-                <select id="order-status" required>
-                    <option value="To Make">To Make</option>
-                    <option value="Ready">Ready</option>
-                    <option value="Completed">Completed</option>
-                </select>
-
-
-                <!-- ===== PAYMENT STATUS ===== -->
-                <label for="payment-status">Payment Status</label>
-                <select id="payment-status" required>
-                    <option value="Unpaid">Unpaid</option>
-                    <option value="Paid">Paid</option>
-                </select>
-
-
-                <!-- ===== COLLECTION DATE ===== -->
                 <label for="collection-date">Collection Date</label>
+                <input type="date" id="collection-date" required>
 
-                <input
-                    type="date"
-                    id="collection-date"
-                    required>
-
-
-                <!-- ===== SUBMIT BUTTON ===== -->
-                <button type="submit">Add Order</button>
-
+                <button class="submit-order-button" type="submit">Place Order</button>
             </form>
-
         </section>
 
 
-        <!-- ===== DASHBOARD / UI FEEDBACK ===== -->
-        <section id="dashboard-section">
-            <h2>Order Dashboard</h2>
-
-            <div class="dashboard-cards">
-                <div class="summary-card">
-                    <span id="total-orders">0</span>
-                    <p>Total Orders</p>
-                </div>
-
-                <div class="summary-card">
-                    <span id="to-make-orders">0</span>
-                    <p>To Make</p>
-                </div>
-
-                <div class="summary-card">
-                    <span id="ready-orders">0</span>
-                    <p>Ready</p>
-                </div>
-
-                <div class="summary-card">
-                    <span id="completed-orders">0</span>
-                    <p>Completed</p>
-                </div>
+        <!-- ===== CUSTOMER ORDER HISTORY ===== -->
+        <section id="my-orders" class="content-section">
+            <div class="section-heading">
+                <p class="eyebrow">MY ORDERS</p>
+                <h2>Your ChocoFixCo orders</h2>
+                <p>View, update or cancel an order below.</p>
             </div>
-        </section>
 
-
-        <!-- ===== ORDER LIST SECTION ===== -->
-        <section id="orders-section">
-
-            <h2>Orders</h2>
-
-            <!-- JavaScript will later display orders here -->
             <div id="order-list">
-
                 <p>No orders yet.</p>
-
             </div>
-
         </section>
 
     </main>
 
 
-    <!-- =====================================================
-         ===== JAVASCRIPT FILE ORDER =====
-         =====================================================
+    <!-- ===== CUSTOMER-FACING FOOTER ===== -->
+    <footer>
+        <div>
+            <strong>ChocoFixCo</strong>
+            <p>Chocolate made for happy moments.</p>
+        </div>
 
-         Axios = library used for AJAX / HTTP requests
-         data.js = JSONBin API configuration
+        <p>Order & collection website</p>
+    </footer>
+
+
+    <!-- ===== JAVASCRIPT FILE ORDER =====
+         Axios     = AJAX / HTTP library
+         data.js   = API configuration
          script.js = application logic
-
-         The order matters because script.js uses
-         Axios and the constants from data.js.
     -->
-
-    <!-- ===== AXIOS ===== -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-    <!-- ===== DATA / API CONFIGURATION ===== -->
     <script src="data.js"></script>
-
-    <!-- ===== APPLICATION LOGIC ===== -->
     <script src="script.js"></script>
 
 </body>
-
 </html>
