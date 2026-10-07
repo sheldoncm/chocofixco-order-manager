@@ -413,6 +413,58 @@ async function saveOrders() {
 
 
 // =========================================================
+// ===== LO6: FUNCTION RETURN VALUE PASSED AS ARGUMENT =====
+// =========================================================
+//
+// ASSESSMENT REQUIREMENT:
+//
+// Have at least one function whose RETURN VALUE
+// is passed as an ARGUMENT to another function.
+//
+// Step 1:
+// createOrderCardContent(order)
+// RETURNS the HTML text for one order.
+//
+// Step 2:
+// That returned value is passed directly into:
+//
+// setOrderCardContent(orderCard, RETURNED VALUE)
+//
+// The actual function call is:
+//
+// setOrderCardContent(
+//     orderCard,
+//     createOrderCardContent(order)
+// );
+//
+// ORAL ANSWER:
+//
+// createOrderCardContent() returns a value.
+// I pass that returned value as the second argument
+// of setOrderCardContent().
+// =========================================================
+
+function createOrderCardContent(order) {
+
+    return `
+        <h3>${order.customerName}</h3>
+        <p>Product: ${order.product}</p>
+        <p>Quantity: ${order.quantity}</p>
+        <p>Collection Date: ${order.collectionDate}</p>
+    `;
+
+}
+
+
+function setOrderCardContent(element, content) {
+
+    element.innerHTML =
+        content;
+
+}
+
+
+// =========================================================
 // ===== DISPLAY ORDERS FUNCTION =====
 // =========================================================
 //
@@ -476,13 +528,19 @@ function displayOrders() {
 
 
         // ===== DISPLAY ORDER INFORMATION =====
+        //
+        // createOrderCardContent(order) RETURNS the HTML.
+        //
+        // That return value is passed as an ARGUMENT
+        // into setOrderCardContent().
+        //
+        // This directly demonstrates the assessment
+        // requirement for function return values.
 
-        orderCard.innerHTML = `
-            <h3>${order.customerName}</h3>
-            <p>Product: ${order.product}</p>
-            <p>Quantity: ${order.quantity}</p>
-            <p>Collection Date: ${order.collectionDate}</p>
-        `;
+        setOrderCardContent(
+            orderCard,
+            createOrderCardContent(order)
+        );
 
 
         // =================================================
