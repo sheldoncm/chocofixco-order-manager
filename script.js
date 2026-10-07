@@ -90,6 +90,118 @@ const submitButton =
     document.querySelector(".submit-order-button");
 
 
+
+
+// =========================================================
+// ===== RESPONSIVE HAMBURGER MENU =====
+// ===== LO7: DOM SELECTION / LO8: EVENT HANDLER =====
+// =========================================================
+//
+// ASSESSMENT / ORAL QUESTIONS:
+//
+// Q: How do you select an HTML element with JavaScript?
+// A: I use DOM selection methods such as getElementById()
+//    and querySelector().
+//
+// Q: What is an event handler?
+// A: It is code that runs when an event happens.
+//    Here, addEventListener("click", ...) waits for the
+//    customer to click the hamburger button.
+//
+// Q: How do you manipulate the DOM?
+// A: classList.toggle() adds/removes the "open" CSS class.
+//    CSS uses that class to show or hide the mobile menu.
+//
+// Q: How is the website mobile responsive?
+// A: CSS media queries change the layout on smaller screens,
+//    and JavaScript controls the hamburger navigation.
+// =========================================================
+
+const menuToggle =
+    document.getElementById("menu-toggle");
+
+const navigationLinks =
+    document.getElementById("nav-links");
+
+
+// ===== MOBILE MENU CLICK EVENT =====
+
+menuToggle.addEventListener("click", function() {
+
+    // toggle() adds "open" when it is missing,
+    // and removes "open" when it already exists.
+
+    navigationLinks.classList.toggle("open");
+
+
+    // contains() returns true when the class exists.
+    // This Boolean value tells us whether the menu is open.
+
+    const menuIsOpen =
+        navigationLinks.classList.contains("open");
+
+
+    // setAttribute() modifies an HTML attribute in the DOM.
+
+    menuToggle.setAttribute(
+        "aria-expanded",
+        menuIsOpen
+    );
+
+
+    // ===== BRANCHING =====
+    // Change the accessible label depending on state.
+
+    if (menuIsOpen === true) {
+
+        menuToggle.setAttribute(
+            "aria-label",
+            "Close navigation menu"
+        );
+
+    }
+
+    else {
+
+        menuToggle.setAttribute(
+            "aria-label",
+            "Open navigation menu"
+        );
+
+    }
+
+});
+
+
+// ===== CLOSE MOBILE MENU AFTER SELECTING A LINK =====
+//
+// querySelectorAll() returns all matching navigation links.
+// for...of loops through the collection.
+
+const mobileNavigationLinks =
+    navigationLinks.querySelectorAll("a");
+
+for (const navigationLink of mobileNavigationLinks) {
+
+    navigationLink.addEventListener("click", function() {
+
+        navigationLinks.classList.remove("open");
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+        menuToggle.setAttribute(
+            "aria-label",
+            "Open navigation menu"
+        );
+
+    });
+
+}
+
+
 // =========================================================
 // ===== QUANTITY LIMITS =====
 // =========================================================
