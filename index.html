@@ -134,7 +134,25 @@
     </main>
 
 
-    <!-- ===== JAVASCRIPT ===== -->
+    <!-- =====================================================
+         ===== JAVASCRIPT FILE ORDER =====
+         =====================================================
+
+         Axios = library used for AJAX / HTTP requests
+         data.js = JSONBin API configuration
+         script.js = application logic
+
+         The order matters because script.js uses
+         Axios and the constants from data.js.
+    -->
+
+    <!-- ===== AXIOS ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- ===== DATA / API CONFIGURATION ===== -->
+    <script src="data.js"></script>
+
+    <!-- ===== APPLICATION LOGIC ===== -->
     <script src="script.js"></script>
 
 </body>
