@@ -211,8 +211,7 @@ h3 {
     margin-top: 28px;
 }
 
-.primary-button,
-.secondary-button {
+.primary-button {
     display: inline-block;
     padding: 13px 20px;
     border-radius: 6px;
@@ -225,10 +224,6 @@ h3 {
     color: white;
 }
 
-.secondary-button {
-    border: 1px solid #6b2f12;
-    color: #6b2f12;
-}
 
 .hero-visual {
     position: relative;
@@ -537,8 +532,8 @@ select:focus {
 
 button:not(:disabled):hover,
 .primary-button:hover,
-.secondary-button:hover,
-.nav-order-button:hover {
+.nav-order-button:hover,
+.hero-floating-cta:hover {
     opacity: 0.85;
 }
 
