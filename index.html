@@ -100,6 +100,23 @@
                 </div>
 
 
+                <!-- ===== ORDER STATUS ===== -->
+                <label for="order-status">Order Status</label>
+                <select id="order-status" required>
+                    <option value="To Make">To Make</option>
+                    <option value="Ready">Ready</option>
+                    <option value="Completed">Completed</option>
+                </select>
+
+
+                <!-- ===== PAYMENT STATUS ===== -->
+                <label for="payment-status">Payment Status</label>
+                <select id="payment-status" required>
+                    <option value="Unpaid">Unpaid</option>
+                    <option value="Paid">Paid</option>
+                </select>
+
+
                 <!-- ===== COLLECTION DATE ===== -->
                 <label for="collection-date">Collection Date</label>
 
@@ -114,6 +131,34 @@
 
             </form>
 
+        </section>
+
+
+        <!-- ===== DASHBOARD / UI FEEDBACK ===== -->
+        <section id="dashboard-section">
+            <h2>Order Dashboard</h2>
+
+            <div class="dashboard-cards">
+                <div class="summary-card">
+                    <span id="total-orders">0</span>
+                    <p>Total Orders</p>
+                </div>
+
+                <div class="summary-card">
+                    <span id="to-make-orders">0</span>
+                    <p>To Make</p>
+                </div>
+
+                <div class="summary-card">
+                    <span id="ready-orders">0</span>
+                    <p>Ready</p>
+                </div>
+
+                <div class="summary-card">
+                    <span id="completed-orders">0</span>
+                    <p>Completed</p>
+                </div>
+            </div>
         </section>
 
 
