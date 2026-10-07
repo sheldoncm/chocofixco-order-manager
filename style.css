@@ -63,10 +63,12 @@ img {
 }
 
 .nav-container {
-    max-width: 1180px;
-    margin: 0 auto;
+    /* Full-width navigation.
+       The header stretches across the screen while padding
+       keeps the content away from the browser edges. */
+    width: 100%;
     min-height: 82px;
-    padding: 8px 24px;
+    padding: 8px 40px;
 
     /* ===== FLEXBOX ===== */
     display: flex;
@@ -101,6 +103,17 @@ img {
     background-color: #642f2f;
     color: #ffffff;
     border-radius: 6px;
+}
+
+/* Hidden on desktop. The media query below displays this
+   button on smaller screens. */
+.menu-toggle {
+    display: none;
+    border: 0;
+    background: transparent;
+    color: #642f2f;
+    font-size: 30px;
+    cursor: pointer;
 }
 
 
@@ -428,9 +441,16 @@ button:not(:disabled):hover,
    ========================================================= */
 
 footer {
-    padding: 35px max(24px, calc((100% - 1132px) / 2));
+    width: 100%;
+    padding: 35px 40px;
     background-color: #3f2222;
     color: white;
+}
+
+/* The footer background and content use the full screen width.
+   Flexbox places the two footer areas side-by-side on desktop. */
+.footer-container {
+    width: 100%;
 
     /* ===== FLEXBOX ===== */
     display: flex;
@@ -466,30 +486,54 @@ footer p {
 
 @media (max-width: 700px) {
 
-    .nav-container,
-    .hero,
-    footer {
-        flex-direction: column;
-    }
-
+    /* ===== RESPONSIVE HEADER =====
+       On mobile:
+       1. Logo stays on the left.
+       2. Hamburger stays on the right.
+       3. Navigation is hidden until JavaScript adds .open.
+    */
     .nav-container {
-        align-items: flex-start;
-        padding-top: 12px;
-        padding-bottom: 16px;
-        gap: 12px;
+        padding: 10px 18px;
+        flex-wrap: wrap;
     }
 
     .brand img {
         width: 125px;
     }
 
-    .nav-links {
-        width: 100%;
-        gap: 12px;
-        flex-wrap: wrap;
+    .menu-toggle {
+        display: block;
+        min-width: 44px;
+        min-height: 44px;
     }
 
+    .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 12px 0 6px;
+    }
+
+    /* JavaScript uses classList.toggle("open").
+       When .open exists, the mobile menu becomes visible. */
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links a {
+        padding: 12px 4px;
+    }
+
+    .nav-order-button {
+        margin-top: 5px;
+        text-align: center;
+    }
+
+    /* ===== RESPONSIVE HERO ===== */
     .hero {
+        flex-direction: column;
         padding-top: 45px;
     }
 
@@ -502,6 +546,7 @@ footer p {
         height: 300px;
     }
 
+    /* ===== RESPONSIVE CARDS ===== */
     .product-card,
     .order-card {
         flex: 1 1 100%;
@@ -518,6 +563,17 @@ footer p {
 
     .quantity-control {
         flex-wrap: wrap;
+    }
+
+    /* ===== RESPONSIVE FOOTER ===== */
+    footer {
+        padding: 28px 18px;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
     }
 
 }
