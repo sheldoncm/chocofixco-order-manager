@@ -65,10 +65,41 @@
                 </div>
             </div>
 
-            <div class="hero-visual">
+            <!-- ===== HERO CAROUSEL =====
+                 CAROUSEL = several images shown in the same space.
+                 JavaScript changes the image when the customer uses
+                 the Previous / Next controls or the indicator dots.
+            -->
+            <div class="hero-visual" id="hero-carousel">
                 <img
+                    id="hero-carousel-image"
                     src="images/chocofixco-products/03_hero.jpg"
                     alt="ChocoFixCo handmade chocolate selection">
+
+                <!-- ===== FLOATING CTA =====
+                     CTA = Call To Action.
+                     position:absolute in CSS places this button
+                     over the hero image.
+                -->
+                <a class="hero-floating-cta" href="#order-now">Order Now</a>
+
+                <button
+                    class="carousel-button carousel-previous"
+                    id="carousel-previous"
+                    type="button"
+                    aria-label="Previous hero image">‹</button>
+
+                <button
+                    class="carousel-button carousel-next"
+                    id="carousel-next"
+                    type="button"
+                    aria-label="Next hero image">›</button>
+
+                <div class="carousel-dots" aria-label="Hero image selector">
+                    <button class="carousel-dot active" type="button" data-slide="0" aria-label="Show hero image 1"></button>
+                    <button class="carousel-dot" type="button" data-slide="1" aria-label="Show hero image 2"></button>
+                    <button class="carousel-dot" type="button" data-slide="2" aria-label="Show hero image 3"></button>
+                </div>
             </div>
         </section>
 
