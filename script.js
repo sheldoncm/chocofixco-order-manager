@@ -203,6 +203,150 @@ for (const navigationLink of mobileNavigationLinks) {
 
 
 // =========================================================
+// ===== HERO CAROUSEL =====
+// ===== ARRAY + INDEX + EVENTS + DOM MANIPULATION =====
+// =========================================================
+//
+// CAROUSEL = multiple images displayed in the same area.
+//
+// Q: Where is the ARRAY?
+// A: heroSlides stores three OBJECTS inside an ARRAY.
+//
+// Q: What is an OBJECT?
+// A: Each slide object groups related properties:
+//    image and alt.
+//
+// Q: What is an INDEX?
+// A: currentSlide stores the position in the array.
+//    Arrays start at index 0.
+//
+// Q: Where is DOM manipulation used?
+// A: showHeroSlide() changes heroCarouselImage.src,
+//    heroCarouselImage.alt and the dot CSS classes.
+//
+// Q: Where are EVENT HANDLERS used?
+// A: Previous, Next and each indicator dot listen for clicks.
+//
+// Q: Why use a FUNCTION?
+// A: showHeroSlide() keeps the carousel update logic in
+//    one reusable block instead of repeating the same code.
+// =========================================================
+
+const heroSlides = [
+    {
+        image: "images/chocofixco-products/03_hero.jpg",
+        alt: "ChocoFixCo handmade chocolate selection"
+    },
+    {
+        image: "images/chocofixco-products/09_truffles-selection.jpg",
+        alt: "ChocoFixCo chocolate truffle selection"
+    },
+    {
+        image: "images/chocofixco-products/10_heart-chocolates.jpg",
+        alt: "ChocoFixCo heart shaped chocolates"
+    }
+];
+
+let currentSlide = 0;
+
+const heroCarouselImage =
+    document.getElementById("hero-carousel-image");
+
+const carouselPreviousButton =
+    document.getElementById("carousel-previous");
+
+const carouselNextButton =
+    document.getElementById("carousel-next");
+
+const carouselDots =
+    document.querySelectorAll(".carousel-dot");
+
+
+function showHeroSlide(slideIndex) {
+
+    // ===== BRANCHING =====
+    // Wrap from the first slide to the last slide.
+
+    if (slideIndex < 0) {
+        slideIndex = heroSlides.length - 1;
+    }
+
+    // Wrap from the last slide back to the first slide.
+
+    if (slideIndex >= heroSlides.length) {
+        slideIndex = 0;
+    }
+
+    currentSlide = slideIndex;
+
+    // ===== DOM PROPERTY CHANGES =====
+    // Requirement evidence: we modify src and alt
+    // on the hero <img> element.
+
+    heroCarouselImage.src =
+        heroSlides[currentSlide].image;
+
+    heroCarouselImage.alt =
+        heroSlides[currentSlide].alt;
+
+
+    // ===== LOOP =====
+    // Update which indicator dot has the active class.
+
+    for (let index = 0; index < carouselDots.length; index++) {
+
+        if (index === currentSlide) {
+            carouselDots[index].classList.add("active");
+        }
+
+        else {
+            carouselDots[index].classList.remove("active");
+        }
+
+    }
+
+}
+
+
+// ===== CAROUSEL EVENT: PREVIOUS =====
+
+carouselPreviousButton.addEventListener("click", function() {
+
+    showHeroSlide(currentSlide - 1);
+
+});
+
+
+// ===== CAROUSEL EVENT: NEXT =====
+
+carouselNextButton.addEventListener("click", function() {
+
+    showHeroSlide(currentSlide + 1);
+
+});
+
+
+// ===== CAROUSEL EVENT: INDICATOR DOTS =====
+//
+// for...of loops through every dot.
+// dataset.slide reads the HTML data-slide attribute.
+// Number() converts the String into a Number.
+
+for (const carouselDot of carouselDots) {
+
+    carouselDot.addEventListener("click", function() {
+
+        const selectedSlide =
+            Number(carouselDot.dataset.slide);
+
+        showHeroSlide(selectedSlide);
+
+    });
+
+}
+
+
+// =========================================================
 // ===== QUANTITY LIMITS =====
 // =========================================================
 
