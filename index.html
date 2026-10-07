@@ -16,7 +16,22 @@
                 <img src="images/chocofixco-products/01_logo.png" alt="ChocoFixCo">
             </a>
 
-            <div class="nav-links">
+            <!-- ===== MOBILE HAMBURGER BUTTON =====
+                 aria-label gives the button an accessible name.
+                 aria-expanded tells assistive technology whether
+                 the mobile menu is currently open or closed.
+            -->
+            <button
+                class="menu-toggle"
+                id="menu-toggle"
+                type="button"
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+                aria-controls="nav-links">
+                ☰
+            </button>
+
+            <div class="nav-links" id="nav-links">
                 <a href="#" class="home-link">Home</a>
                 <a href="#chocolates">Chocolates</a>
                 <a href="#my-orders">My Orders</a>
@@ -175,12 +190,14 @@
 
     <!-- ===== CUSTOMER-FACING FOOTER ===== -->
     <footer>
-        <div class="footer-brand">
-            <img src="images/chocofixco-products/02_logo-round.png" alt="ChocoFixCo round logo">
-            <p>Chocolate made for happy moments.</p>
-        </div>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img src="images/chocofixco-products/02_logo-round.png" alt="ChocoFixCo round logo">
+                <p>Chocolate made for happy moments.</p>
+            </div>
 
-        <p>Order & collection website</p>
+            <p>Order & collection website</p>
+        </div>
     </footer>
 
 
