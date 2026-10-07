@@ -44,6 +44,11 @@ a {
     color: inherit;
 }
 
+img {
+    display: block;
+    max-width: 100%;
+}
+
 
 /* =========================================================
    ===== HEADER / NAVIGATION =====
@@ -60,22 +65,28 @@ a {
 .nav-container {
     max-width: 1180px;
     margin: 0 auto;
-    min-height: 72px;
-    padding: 0 24px;
+    min-height: 82px;
+    padding: 8px 24px;
 
+    /* ===== FLEXBOX ===== */
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .brand {
-    color: #642f2f;
-    font-size: 24px;
-    font-weight: bold;
+    display: block;
     text-decoration: none;
 }
 
+.brand img {
+    width: 150px;
+    max-height: 62px;
+    object-fit: contain;
+}
+
 .nav-links {
+    /* ===== FLEXBOX ===== */
     display: flex;
     align-items: center;
     gap: 26px;
@@ -103,6 +114,7 @@ a {
     margin: 0 auto;
     padding: 70px 24px;
 
+    /* ===== FLEXBOX ===== */
     display: flex;
     align-items: center;
     gap: 60px;
@@ -161,56 +173,16 @@ a {
 }
 
 .hero-visual {
-    min-height: 360px;
-    position: relative;
+    min-height: 390px;
     overflow: hidden;
     border-radius: 28px;
-    background:
-        radial-gradient(circle at 30% 25%, #d8a879 0 8%, transparent 9%),
-        radial-gradient(circle at 68% 64%, #8d4c37 0 13%, transparent 14%),
-        linear-gradient(135deg, #f0d6bf, #8d4c37);
+    box-shadow: 0 18px 45px rgba(60, 25, 20, 0.16);
 }
 
-.hero-visual p {
-    position: absolute;
-    left: 30px;
-    bottom: 24px;
-    margin: 0;
-    color: white;
-    font-size: 22px;
-    font-weight: bold;
-    line-height: 1.35;
-}
-
-.chocolate-shape {
-    position: absolute;
-    background-color: #4b2521;
-    border-radius: 12px;
-    box-shadow: 0 18px 30px rgba(60, 25, 20, 0.2);
-}
-
-.chocolate-one {
-    width: 120px;
-    height: 150px;
-    top: 50px;
-    left: 55px;
-    transform: rotate(-12deg);
-}
-
-.chocolate-two {
-    width: 135px;
-    height: 105px;
-    top: 105px;
-    right: 50px;
-    transform: rotate(14deg);
-}
-
-.chocolate-three {
-    width: 95px;
-    height: 95px;
-    top: 210px;
-    left: 180px;
-    border-radius: 50%;
+.hero-visual img {
+    width: 100%;
+    height: 390px;
+    object-fit: cover;
 }
 
 
@@ -266,28 +238,16 @@ a {
     border-radius: 14px;
 }
 
+.product-card {
+    overflow: hidden;
+}
+
 .product-image {
-    min-height: 190px;
+    width: 100%;
+    height: 230px;
     margin-bottom: 20px;
     border-radius: 10px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 68px;
-}
-
-.product-image-one {
-    background-color: #f1dfd2;
-}
-
-.product-image-two {
-    background-color: #ead1c5;
-}
-
-.product-image-three {
-    background-color: #f5e8dc;
+    object-fit: cover;
 }
 
 .product-card h3,
@@ -306,6 +266,22 @@ a {
     margin-top: 8px;
     color: #642f2f;
     font-weight: bold;
+}
+
+/* Extra real-product imagery makes the customer page feel
+   like a chocolate shop rather than an internal dashboard. */
+.product-gallery {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.product-gallery img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 12px;
 }
 
 
@@ -329,6 +305,7 @@ a {
     background-color: white;
     border-radius: 14px;
 
+    /* ===== FLEXBOX ===== */
     display: flex;
     flex-direction: column;
 }
@@ -455,9 +432,23 @@ footer {
     background-color: #3f2222;
     color: white;
 
+    /* ===== FLEXBOX ===== */
     display: flex;
+    align-items: center;
     justify-content: space-between;
     gap: 30px;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.footer-brand img {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
 }
 
 footer p {
@@ -483,9 +474,13 @@ footer p {
 
     .nav-container {
         align-items: flex-start;
-        padding-top: 18px;
-        padding-bottom: 18px;
-        gap: 16px;
+        padding-top: 12px;
+        padding-bottom: 16px;
+        gap: 12px;
+    }
+
+    .brand img {
+        width: 125px;
     }
 
     .nav-links {
@@ -503,10 +498,22 @@ footer p {
         min-height: 300px;
     }
 
+    .hero-visual img {
+        height: 300px;
+    }
+
     .product-card,
     .order-card {
         flex: 1 1 100%;
         max-width: 100%;
+    }
+
+    .product-gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .product-gallery img {
+        height: 150px;
     }
 
     .quantity-control {
