@@ -66,12 +66,6 @@ const quantityInput =
 const collectionDateInput =
     document.getElementById("collection-date");
 
-const orderStatusInput =
-    document.getElementById("order-status");
-
-const paymentStatusInput =
-    document.getElementById("payment-status");
-
 const decreaseQuantityButton =
     document.getElementById("decrease-quantity");
 
@@ -80,18 +74,6 @@ const increaseQuantityButton =
 
 const orderList =
     document.getElementById("order-list");
-
-const totalOrdersText =
-    document.getElementById("total-orders");
-
-const toMakeOrdersText =
-    document.getElementById("to-make-orders");
-
-const readyOrdersText =
-    document.getElementById("ready-orders");
-
-const completedOrdersText =
-    document.getElementById("completed-orders");
 
 
 // querySelector() finds an element
@@ -105,7 +87,7 @@ const completedOrdersText =
 // the order form.
 
 const submitButton =
-    document.querySelector("#order-form > button");
+    document.querySelector(".submit-order-button");
 
 
 // =========================================================
@@ -464,13 +446,16 @@ async function saveOrders() {
 
 function createOrderCardContent(order) {
 
+    // || is a LOGICAL OPERATOR.
+    // It provides a fallback for older saved orders.
+
     return `
         <h3>${order.customerName}</h3>
         <p>Product: ${order.product}</p>
         <p>Quantity: ${order.quantity}</p>
         <p>Collection Date: ${order.collectionDate}</p>
-        <p>Status: <strong>${order.orderStatus || "To Make"}</strong></p>
-        <p>Payment: <strong>${order.paymentStatus || "Unpaid"}</strong></p>
+        <p>Status: <strong>${order.orderStatus || "Order Received"}</strong></p>
+        <p>Payment: <strong>${order.paymentStatus || "Pending"}</strong></p>
     `;
 
 }
@@ -485,61 +470,20 @@ function setOrderCardContent(element, content) {
 
 
 // =========================================================
-// ===== LO7: DOM PROPERTIES + LO4: LOGICAL OPERATOR =====
+// ===== LO7: DOM MANIPULATION =====
 // =========================================================
 //
-// ASSESSMENT EVIDENCE:
+// The customer order cards below demonstrate DOM selection
+// and DOM property changes.
 //
-// This function changes textContent on FOUR DOM elements.
-// That clearly exceeds the requirement to modify
-// at least 3 properties across 2 DOM elements.
-//
-// The || logical operator handles older orders that do not
-// yet have an orderStatus property.
+// Examples:
+// innerHTML, textContent, value, disabled,
+// classList.add(), createElement() and appendChild().
 //
 // ORAL ANSWER:
-// "I use DOM selection and textContent to update the
-// dashboard. I also use || as a logical operator."
+// "I use JavaScript to select HTML elements and change
+// their properties when the customer interacts with the page."
 // =========================================================
-
-function updateDashboard() {
-
-    let toMakeCount = 0;
-    let readyCount = 0;
-    let completedCount = 0;
-
-    for (const order of orders) {
-
-        const status =
-            order.orderStatus || "To Make";
-
-        if (status === "To Make") {
-            toMakeCount++;
-        }
-
-        else if (status === "Ready") {
-            readyCount++;
-        }
-
-        else if (status === "Completed") {
-            completedCount++;
-        }
-
-    }
-
-    totalOrdersText.textContent =
-        orders.length;
-
-    toMakeOrdersText.textContent =
-        toMakeCount;
-
-    readyOrdersText.textContent =
-        readyCount;
-
-    completedOrdersText.textContent =
-        completedCount;
-
-}
 
 
 // =========================================================
@@ -550,10 +494,6 @@ function updateDashboard() {
 // the orders on the webpage.
 
 function displayOrders() {
-
-    // Update dashboard whenever orders are displayed.
-    updateDashboard();
-
 
     // ===== CLEAR OLD DISPLAY =====
 
@@ -667,13 +607,6 @@ function displayOrders() {
             collectionDateInput.value =
                 order.collectionDate;
 
-            orderStatusInput.value =
-                order.orderStatus || "To Make";
-
-            paymentStatusInput.value =
-                order.paymentStatus || "Unpaid";
-
-
             // Update quantity buttons.
 
             updateQuantityButtons();
@@ -716,7 +649,7 @@ function displayOrders() {
             document.createElement("button");
 
         deleteButton.textContent =
-            "Delete Order";
+            "Cancel Order";
 
 
         // Give Delete button a CSS class.
@@ -727,6 +660,16 @@ function displayOrders() {
         // ===== DELETE EVENT =====
 
         deleteButton.addEventListener("click", async function() {
+
+            // confirm() protects the customer from
+            // cancelling an order by accident.
+
+            const customerConfirmed =
+                confirm("Cancel this order?");
+
+            if (customerConfirmed === false) {
+                return;
+            }
 
 
             // Remove ONE order from the ARRAY.
@@ -794,6 +737,33 @@ function displayOrders() {
 
 
 // =========================================================
+// ===== PRODUCT CARD EVENTS =====
+// =========================================================
+//
+// querySelectorAll() selects ALL product order links.
+// for...of loops through them.
+// A click fills the product dropdown automatically.
+//
+// This gives the customer a smoother journey from
+// browsing a product to placing an order.
+// =========================================================
+
+const productOrderLinks =
+    document.querySelectorAll(".product-order-link");
+
+for (const productOrderLink of productOrderLinks) {
+
+    productOrderLink.addEventListener("click", function() {
+
+        productInput.value =
+            productOrderLink.dataset.product;
+
+    });
+
+}
+
+
+// =========================================================
 // ===== LO8: EVENT DRIVEN PROGRAMMING =====
 // ===== FORM SUBMIT EVENT =====
 // =========================================================
@@ -837,13 +807,6 @@ orderForm.addEventListener("submit", async function(event) {
     const collectionDate =
         collectionDateInput.value;
 
-    const orderStatus =
-        orderStatusInput.value;
-
-    const paymentStatus =
-        paymentStatusInput.value;
-
-
     // =====================================================
     // ===== LO5: OBJECT =====
     // =====================================================
@@ -853,6 +816,9 @@ orderForm.addEventListener("submit", async function(event) {
     // It has properties:
     // customerName, product, quantity, collectionDate,
 // orderStatus and paymentStatus.
+//
+// The customer does not choose operational status.
+// New orders start as Order Received and Pending payment.
 
     const order = {
 
@@ -864,9 +830,15 @@ orderForm.addEventListener("submit", async function(event) {
 
         collectionDate: collectionDate,
 
-        orderStatus: orderStatus,
+        orderStatus:
+            editingIndex === -1
+                ? "Order Received"
+                : orders[editingIndex].orderStatus || "Order Received",
 
-        paymentStatus: paymentStatus
+        paymentStatus:
+            editingIndex === -1
+                ? "Pending"
+                : orders[editingIndex].paymentStatus || "Pending"
 
     };
 
@@ -912,7 +884,7 @@ orderForm.addEventListener("submit", async function(event) {
         // textContent changes the button text.
 
         submitButton.textContent =
-            "Add Order";
+            "Place Order";
 
     }
 
