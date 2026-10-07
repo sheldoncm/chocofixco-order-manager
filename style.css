@@ -1,79 +1,311 @@
 /* =========================================================
-   CHOCOFIXCO - CSS NOTES
+   CHOCOFIXCO - CUSTOMER WEBSITE CSS STUDY NOTES
 
-   CSS controls HOW the webpage LOOKS.
+   HTML = structure
+   CSS  = presentation
+   JS   = interaction
    ========================================================= */
 
 
 /* =========================================================
    ===== CSS BOX MODEL =====
-   =========================================================
 
    MARGIN
    ┌─────────────────────────────┐
-   │        BORDER               │
-   │   ┌─────────────────────┐   │
-   │   │      PADDING        │   │
-   │   │      CONTENT        │   │
-   │   └─────────────────────┘   │
+   │ BORDER                      │
+   │  ┌───────────────────────┐  │
+   │  │ PADDING               │  │
+   │  │  CONTENT              │  │
+   │  └───────────────────────┘  │
    └─────────────────────────────┘
 
-   MARGIN
-   = space OUTSIDE an element
-
-   BORDER
-   = line around an element
-
-   PADDING
-   = space INSIDE an element
-
-   CONTENT
-   = text, image, button, etc.
-*/
-
-
-/* =========================================================
-   ===== PAGE STYLING =====
+   margin  = outside space
+   border  = edge
+   padding = inside space
+   content = text/image/etc.
    ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
 
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #f8f8f8;
+    font-family: Arial, sans-serif;
+    color: #2f2020;
+    background-color: #fffaf6;
+}
+
+a {
+    color: inherit;
 }
 
 
 /* =========================================================
-   ===== PAGE HEADER =====
+   ===== HEADER / NAVIGATION =====
    ========================================================= */
 
-header {
-    background-color: #5b2c2c;
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eaded6;
+}
+
+.nav-container {
+    max-width: 1180px;
+    margin: 0 auto;
+    min-height: 72px;
+    padding: 0 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    color: #642f2f;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+}
+
+.nav-links a {
+    text-decoration: none;
+}
+
+.nav-order-button {
+    padding: 10px 16px;
+    background-color: #642f2f;
+    color: #ffffff;
+    border-radius: 6px;
+}
+
+
+/* =========================================================
+   ===== HERO =====
+   ========================================================= */
+
+.hero {
+    max-width: 1180px;
+    min-height: 520px;
+    margin: 0 auto;
+    padding: 70px 24px;
+
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.hero-content,
+.hero-visual {
+    flex: 1 1 50%;
+}
+
+.eyebrow {
+    color: #9a5c47;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.hero h1 {
+    margin: 12px 0 18px;
+    color: #4d2424;
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: 1.02;
+}
+
+.hero-copy {
+    max-width: 540px;
+    font-size: 18px;
+    line-height: 1.7;
+    color: #685757;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.primary-button,
+.secondary-button {
+    display: inline-block;
+    padding: 13px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.primary-button {
+    background-color: #642f2f;
     color: white;
-    padding: 20px;
+}
+
+.secondary-button {
+    border: 1px solid #642f2f;
+    color: #642f2f;
+}
+
+.hero-visual {
+    min-height: 360px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at 30% 25%, #d8a879 0 8%, transparent 9%),
+        radial-gradient(circle at 68% 64%, #8d4c37 0 13%, transparent 14%),
+        linear-gradient(135deg, #f0d6bf, #8d4c37);
+}
+
+.hero-visual p {
+    position: absolute;
+    left: 30px;
+    bottom: 24px;
+    margin: 0;
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1.35;
+}
+
+.chocolate-shape {
+    position: absolute;
+    background-color: #4b2521;
+    border-radius: 12px;
+    box-shadow: 0 18px 30px rgba(60, 25, 20, 0.2);
+}
+
+.chocolate-one {
+    width: 120px;
+    height: 150px;
+    top: 50px;
+    left: 55px;
+    transform: rotate(-12deg);
+}
+
+.chocolate-two {
+    width: 135px;
+    height: 105px;
+    top: 105px;
+    right: 50px;
+    transform: rotate(14deg);
+}
+
+.chocolate-three {
+    width: 95px;
+    height: 95px;
+    top: 210px;
+    left: 180px;
+    border-radius: 50%;
 }
 
 
 /* =========================================================
-   ===== MAIN CONTENT =====
+   ===== COMMON SECTIONS =====
    ========================================================= */
 
-main {
-    max-width: 1000px;
-    margin: 30px auto;
-    padding: 20px;
+.content-section,
+.order-section {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 75px 24px;
+}
+
+.section-heading {
+    max-width: 650px;
+    margin-bottom: 32px;
+}
+
+.section-heading h2 {
+    margin: 8px 0;
+    color: #4d2424;
+    font-size: 36px;
+}
+
+.section-heading p:last-child {
+    color: #746565;
+    line-height: 1.6;
 }
 
 
 /* =========================================================
-   ===== SECTIONS =====
+   ===== FLEXBOX PRODUCT CARDS =====
+
+   display:flex turns the parent into a Flexbox container.
+   flex-wrap allows cards to move to a new row.
+   gap creates spacing between cards.
    ========================================================= */
 
-section {
+.product-grid,
+#order-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+}
+
+.product-card,
+.order-card {
+    flex: 1 1 280px;
+    padding: 20px;
     background-color: white;
-    padding: 20px;
-    border: 1px solid #dddddd;
+    border: 1px solid #eaded6;
+    border-radius: 14px;
+}
+
+.product-image {
+    min-height: 190px;
     margin-bottom: 20px;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 68px;
+}
+
+.product-image-one {
+    background-color: #f1dfd2;
+}
+
+.product-image-two {
+    background-color: #ead1c5;
+}
+
+.product-image-three {
+    background-color: #f5e8dc;
+}
+
+.product-card h3,
+.order-card h3 {
+    color: #5b2c2c;
+}
+
+.product-card p,
+.order-card p {
+    color: #6d6060;
+    line-height: 1.5;
+}
+
+.product-order-link {
+    display: inline-block;
+    margin-top: 8px;
+    color: #642f2f;
+    font-weight: bold;
 }
 
 
@@ -81,71 +313,58 @@ section {
    ===== ORDER FORM =====
    ========================================================= */
 
-form {
+.order-section {
+    max-width: none;
+    background-color: #f3e6dc;
+}
+
+.order-section > * {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.order-form {
+    padding: 28px;
+    background-color: white;
+    border-radius: 14px;
+
     display: flex;
     flex-direction: column;
 }
 
-
-/* =========================================================
-   ===== FORM LABELS =====
-   ========================================================= */
-
 label {
-    margin-top: 15px;
+    margin-top: 16px;
+    margin-bottom: 6px;
+    font-weight: bold;
 }
 
-
-/* =========================================================
-   ===== FORM INPUTS =====
-   ========================================================= */
-
-input {
-    padding: 10px;
-    border: 1px solid #cccccc;
-    margin-top: 5px;
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cdbfb7;
+    border-radius: 5px;
+    background-color: white;
+    font: inherit;
 }
 
-
-/* =========================================================
-   ===== INPUT FOCUS =====
-   ========================================================= */
-
-input:focus {
-    border: 2px solid #5b2c2c;
+input:focus,
+select:focus {
+    outline: 2px solid #9a5c47;
+    border-color: transparent;
 }
-
-
-/* =========================================================
-   ===== QUANTITY CONTROL =====
-   ========================================================= */
 
 .quantity-control {
     display: flex;
-    flex-direction: row;
     align-items: center;
     gap: 8px;
 }
 
-
-/* ===== QUANTITY INPUT ===== */
-
 .quantity-control input {
-    width: 70px;
+    width: 72px;
     text-align: center;
 }
-
-
-/* =========================================================
-   ===== REMOVE NATIVE NUMBER ARROWS =====
-   =========================================================
-   
-   Browsers normally show tiny up/down arrows
-   inside number inputs.
-
-   We have our own larger - and + buttons,
-   so we hide the browser arrows.
-*/
 
 .quantity-control input::-webkit-inner-spin-button,
 .quantity-control input::-webkit-outer-spin-button {
@@ -153,307 +372,145 @@ input:focus {
     margin: 0;
 }
 
-
 .quantity-control input[type="number"] {
     -moz-appearance: textfield;
     appearance: textfield;
 }
 
-
-/* =========================================================
-   ===== QUANTITY BUTTONS =====
-   ========================================================= */
-
 .quantity-control button {
-    width: 40px;
-    height: 40px;
-
-    padding: 0;
-    margin-top: 5px;
-
-    font-size: 20px;
-
-    background-color: #5b2c2c;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 5px;
+    background-color: #642f2f;
     color: white;
-
-    border: none;
-
+    font-size: 20px;
     cursor: pointer;
 }
 
-
-/* ===== QUANTITY LIMIT MESSAGE ===== */
-
-.quantity-limit {
-    margin-left: 5px;
-    font-size: 14px;
-    color: #666666;
-}
-
-
-/* ===== DISABLED QUANTITY BUTTON ===== */
-
 .quantity-control button:disabled {
-    background-color: #cccccc;
-    color: #666666;
+    background-color: #cfc6c2;
     cursor: not-allowed;
 }
 
+.quantity-limit {
+    color: #746565;
+    font-size: 14px;
+}
 
-/* =========================================================
-   ===== ADD / UPDATE ORDER BUTTON =====
-   ========================================================= */
-
-form > button {
-    padding: 10px;
-    margin-top: 20px;
-
-    background-color: #5b2c2c;
+.submit-order-button {
+    margin-top: 24px;
+    padding: 13px;
+    border: 0;
+    border-radius: 6px;
+    background-color: #642f2f;
     color: white;
-
-    border: none;
-
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
 }
 
 
 /* =========================================================
-   ===== FLEXBOX - ORDER CARD LAYOUT =====
-   =========================================================
-
-   FLEXBOX is a CSS layout system.
-
-   It helps us arrange elements:
-
-   HORIZONTALLY
-   or
-   VERTICALLY.
-
-
-   We want our order cards to appear like this:
-
-
-   DESKTOP
-
-   ┌────────────┐ ┌────────────┐ ┌────────────┐
-   │  Order 1   │ │  Order 2   │ │  Order 3   │
-   └────────────┘ └────────────┘ └────────────┘
-
-
-   display: flex
-   ----------------
-   Turns #order-list into a Flexbox container.
-
-
-   flex-wrap: wrap
-   ----------------
-   Allows cards to move onto the next row
-   when there is not enough space.
-
-
-   gap: 20px
-   ----------------
-   Creates space between the cards.
-*/
-
-#order-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-
-/* =========================================================
-   ===== ORDER CARD =====
-   =========================================================
-   
-   flex: 1 1 250px
-   
-   The card can:
-   
-   GROW
-   SHRINK
-   and starts around 250px wide.
-
-   max-width prevents the card becoming
-   too wide.
-
-   This gives us approximately 3 cards
-   next to each other on larger screens.
-*/
+   ===== CUSTOMER ORDER CARDS =====
+   ========================================================= */
 
 .order-card {
-    flex: 1 1 250px;
-
-    max-width: 280px;
-
-    padding: 20px;
-
-    border: 1px solid #dddddd;
-
-    background-color: #ffffff;
-
-    box-sizing: border-box;
+    max-width: 360px;
 }
-
-
-/* ===== ORDER CUSTOMER NAME ===== */
-
-.order-card h3 {
-    margin-top: 0;
-    color: #5b2c2c;
-}
-
-
-/* ===== ORDER INFORMATION ===== */
-
-.order-card p {
-    margin: 8px 0;
-}
-
-
-/* =========================================================
-   ===== ORDER CARD BUTTONS =====
-   ========================================================= */
 
 .order-card button {
-    padding: 8px 12px;
-
     margin-top: 10px;
     margin-right: 8px;
-
-    border: none;
-
+    padding: 9px 12px;
+    border: 0;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-
-/* =========================================================
-   ===== EDIT BUTTON =====
-   ========================================================= */
-
 .edit-button {
-    background-color: #5b2c2c;
+    background-color: #642f2f;
     color: white;
 }
 
-
-/* =========================================================
-   ===== DELETE BUTTON =====
-   ========================================================= */
-
 .delete-button {
-    background-color: #dddddd;
-    color: #333333;
+    background-color: #eee8e5;
+    color: #4d2424;
 }
 
-
-/* =========================================================
-   ===== PSEUDO-CLASS :HOVER =====
-   =========================================================
-   
-   :hover applies styling when the mouse
-   is placed over an element.
-
-   :not(:disabled) means:
-   
-   Only apply the hover effect when
-   the button is NOT disabled.
-*/
-
-button:not(:disabled):hover {
+button:not(:disabled):hover,
+.primary-button:hover,
+.secondary-button:hover,
+.nav-order-button:hover {
     opacity: 0.85;
 }
 
 
 /* =========================================================
-   ===== RESPONSIVE DESIGN =====
-   =========================================================
-   
-   @media allows CSS to change depending
-   on the screen size.
+   ===== FOOTER =====
+   ========================================================= */
 
-   When the screen is 600px wide or smaller,
-   each order card takes the full width.
+footer {
+    padding: 35px max(24px, calc((100% - 1132px) / 2));
+    background-color: #3f2222;
+    color: white;
 
-   This is useful for mobile phones.
-*/
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
 
-@media (max-width: 600px) {
+footer p {
+    margin: 7px 0 0;
+    color: #eaded6;
+}
 
-    main {
-        margin: 10px auto;
-        padding: 10px;
+
+/* =========================================================
+   ===== LO9: RESPONSIVE DESIGN =====
+
+   A media query changes the layout on smaller screens.
+   This improves usability on mobile devices.
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .nav-container,
+    .hero,
+    footer {
+        flex-direction: column;
     }
 
+    .nav-container {
+        align-items: flex-start;
+        padding-top: 18px;
+        padding-bottom: 18px;
+        gap: 16px;
+    }
 
+    .nav-links {
+        width: 100%;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .hero {
+        padding-top: 45px;
+    }
+
+    .hero-visual {
+        width: 100%;
+        min-height: 300px;
+    }
+
+    .product-card,
     .order-card {
         flex: 1 1 100%;
         max-width: 100%;
     }
 
-}
-
-/* =========================================================
-   ===== SELECT INPUTS =====
-   ========================================================= */
-
-select {
-    padding: 10px;
-    border: 1px solid #cccccc;
-    margin-top: 5px;
-    background-color: white;
-}
-
-select:focus {
-    border: 2px solid #5b2c2c;
-}
-
-
-/* =========================================================
-   ===== LO9: UI / UX - DASHBOARD =====
-   =========================================================
-
-   The dashboard gives the user immediate feedback
-   about production workload.
-
-   FLEXBOX makes the cards responsive and readable.
-*/
-
-.dashboard-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.summary-card {
-    flex: 1 1 150px;
-    padding: 15px;
-    border: 1px solid #dddddd;
-    text-align: center;
-    box-sizing: border-box;
-}
-
-.summary-card span {
-    display: block;
-    font-size: 28px;
-    font-weight: bold;
-    color: #5b2c2c;
-}
-
-.summary-card p {
-    margin: 5px 0 0;
-}
-
-
-/* =========================================================
-   ===== MOBILE DASHBOARD =====
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-    .summary-card {
-        flex: 1 1 45%;
+    .quantity-control {
+        flex-wrap: wrap;
     }
 
 }
