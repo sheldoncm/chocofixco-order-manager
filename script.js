@@ -605,12 +605,48 @@ const apiFeedback = document.getElementById("api-feedback");
 const apiRefreshButton = document.getElementById("api-refresh");
 const apiSaveButton = document.getElementById("api-save");
 
+// =========================================================
+// ===== LIVE API STATUS / DOM / CONDITIONAL STATEMENTS =====
+// =========================================================
+// Axios GET/PUT are asynchronous HTTP requests.
+// We update the footer when a request starts and finishes.
+// Connected = the LAST request succeeded, not continuous uptime.
+// Error = the LAST request failed.
+// toLocaleTimeString() formats the last response time locally.
+
+const footerApiConnection = document.getElementById("footer-api-connection");
+const footerApiAction = document.getElementById("footer-api-action");
+const footerApiResult = document.getElementById("footer-api-result");
+const footerApiTime = document.getElementById("footer-api-time");
+
+function updateFooterApiStatus(action, result, state) {
+    footerApiAction.textContent = action;
+    footerApiResult.textContent = result;
+    footerApiConnection.textContent = state;
+
+    footerApiConnection.classList.remove("api-status-ok", "api-status-error");
+
+    if (state === "Connected") {
+        footerApiConnection.classList.add("api-status-ok");
+    } else if (state === "Error") {
+        footerApiConnection.classList.add("api-status-error");
+    }
+
+    if (state !== "Loading") {
+        const now = new Date();
+        footerApiTime.textContent = now.toLocaleTimeString();
+        footerApiTime.dateTime = now.toISOString();
+    }
+}
+
 function showApiFeedback(message, isError = false) {
     apiFeedback.textContent = message;
     apiFeedback.classList.toggle("error", isError);
 }
 
 async function getOrders() {
+
+    updateFooterApiStatus("GET", "Loading orders...", "Loading");
 
     try {
 
@@ -644,6 +680,7 @@ async function getOrders() {
 
         displayOrders();
         showApiFeedback("GET successful: Orders loaded from JSONBin.");
+        updateFooterApiStatus("GET", "Success", "Connected");
 
         console.log(
             "GET orders:",
@@ -662,6 +699,7 @@ async function getOrders() {
         orderList.innerHTML =
             "<p>Could not load orders.</p>";
         showApiFeedback("GET failed: Could not load orders.", true);
+        updateFooterApiStatus("GET", "Failed", "Error");
 
     }
 
@@ -694,21 +732,28 @@ async function getOrders() {
 
 async function saveOrders() {
 
+    updateFooterApiStatus("PUT", "Saving orders...", "Loading");
+
     const updatedData = {
 
         orders: orders
 
     };
 
-    await axios.put(
-        JSONBIN_URL,
-        updatedData,
-        {
-            headers: JSONBIN_HEADERS
-        }
-    );
-
-    showApiFeedback("PUT successful: Orders saved to JSONBin.");
+    try {
+        await axios.put(
+            JSONBIN_URL,
+            updatedData,
+            {
+                headers: JSONBIN_HEADERS
+            }
+        );
+        showApiFeedback("PUT successful: Orders saved to JSONBin.");
+        updateFooterApiStatus("PUT", "Success", "Connected");
+    } catch (error) {
+        updateFooterApiStatus("PUT", "Failed", "Error");
+        throw error; // The calling CRUD handler still handles the error.
+    }
 
     console.log(
         "PUT orders:",
