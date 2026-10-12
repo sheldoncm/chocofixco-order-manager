@@ -207,6 +207,22 @@
                 <p>View, update or cancel an order below.</p>
             </div>
 
+            <!-- ===== LIVE REST API ASSESSMENT DEMONSTRATION =====
+                 GET retrieves orders from JSONBin.
+                 PUT saves the complete orders collection.
+                 This section is for showing the lecturer the API.
+            -->
+            <div class="api-demo" aria-label="Live REST API demonstration">
+                <p class="api-demo-label">LIVE REST API · ASSESSMENT DEMO</p>
+                <h3>JSONBin Cloud Data</h3>
+                <p>ChocoFixCo loads and saves orders through asynchronous REST requests.</p>
+                <div class="api-demo-actions">
+                    <button id="api-refresh" type="button">Refresh Orders (GET)</button>
+                    <button id="api-save" type="button">Save Changes (PUT)</button>
+                </div>
+                <p id="api-feedback" class="api-feedback" role="status" aria-live="polite">Waiting for API response.</p>
+            </div>
+
             <div id="order-list">
                 <p>No orders yet.</p>
             </div>
