@@ -795,3 +795,60 @@ footer p {
     color: #386b48 !important;
     font-weight: bold;
 }
+
+
+/* =========================================================
+   ===== SPACING / VISUAL HIERARCHY STUDY NOTES =====
+   Spacing separates groups of related content.
+   gap = space BETWEEN cards in the Flexbox layout.
+   margin-bottom = space OUTSIDE the order list, separating
+   customer orders from the lecturer's REST API demo.
+   padding = space INSIDE the cards and demo panel.
+   ========================================================= */
+#order-list {
+    row-gap: 28px;
+    column-gap: 22px;
+    margin-bottom: 40px;
+    align-items: stretch;
+}
+
+.order-card {
+    padding: 24px;
+}
+
+.order-card .order-product-image {
+    margin-bottom: 18px;
+}
+
+.order-card h3 {
+    margin: 0 0 18px;
+}
+
+.order-card p {
+    margin: 0 0 14px;
+}
+
+.order-card button {
+    margin-top: 12px;
+}
+
+.api-demo {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 30px;
+}
+
+@media (max-width: 700px) {
+    #order-list {
+        margin-bottom: 28px;
+        row-gap: 20px;
+    }
+
+    .order-card {
+        padding: 20px;
+    }
+
+    .api-demo {
+        padding: 22px;
+    }
+}
