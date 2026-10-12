@@ -953,3 +953,33 @@ footer p {
         max-width: none;
     }
 }
+
+
+/* =========================================================
+   ===== ASSESSMENT FOOTER / CSS SPACING STUDY NOTES =====
+   text-align:right positions technical notes at the footer edge.
+   margin controls space OUTSIDE each line.
+   line-height controls readable space BETWEEN lines.
+   A media query aligns notes left on narrow mobile screens.
+   ========================================================= */
+.footer-api-notes {
+    margin-left: auto;
+    text-align: right;
+    font-size: 12px;
+    line-height: 1.65;
+    opacity: .85;
+}
+.footer-api-notes p {
+    margin: 0;
+}
+.footer-api-notes .footer-api-heading {
+    font-weight: bold;
+    opacity: 1;
+    margin-bottom: 5px;
+}
+@media (max-width: 700px) {
+    .footer-api-notes {
+        margin-left: 0;
+        text-align: left;
+    }
+}
