@@ -1057,11 +1057,14 @@ function displayOrders() {
             // ===== COMPLETE ORDER / CRUD UPDATE =====
             // Update one object's status, then PUT the array to JSONBin.
             const completeButton = document.createElement("button");
-            completeButton.textContent = "Complete Order";
+            completeButton.textContent = "Confirm Collection";
             completeButton.classList.add("complete-button");
 
             completeButton.addEventListener("click", async function() {
-                const confirmed = confirm("Mark this order as completed?");
+                // ===== CUSTOM MODAL + ASYNC EVENT =====
+                // showModal() opens the styled HTML <dialog>.
+                // await waits for the customer's choice.
+                const confirmed = await askCollectionConfirmation();
                 if (!confirmed) {
                     return;
                 }
@@ -1072,7 +1075,7 @@ function displayOrders() {
                 try {
                     await saveOrders();
                     displayOrders();
-                    showApiFeedback("PUT successful: Order marked Completed in JSONBin.");
+                    showApiFeedback("PUT successful: Collection confirmed and order updated in JSONBin.");
                 } catch (error) {
                     console.error("Could not complete order:", error);
                     showApiFeedback("PUT failed: Order completion was not saved.", true);
@@ -1084,7 +1087,7 @@ function displayOrders() {
         } else {
             const completedLabel = document.createElement("p");
             completedLabel.classList.add("completed-label");
-            completedLabel.textContent = "✓ Completed order";
+            completedLabel.textContent = "✓ Collection confirmed";
             orderCard.appendChild(completedLabel);
         }
 
@@ -1348,6 +1351,30 @@ orderForm.addEventListener("submit", async function(event) {
 
 
 // =========================================================
+// =========================================================
+// ===== CUSTOM COLLECTION MODAL / EVENTS / PROMISE =====
+// =========================================================
+// Q: Why not use confirm()?
+// A: The HTML <dialog> allows a branded, accessible popup.
+// Q: What does showModal() do?
+// A: It opens the dialog above the page.
+// Q: Why a Promise?
+// A: It lets the click handler await the customer's choice.
+// The dialog close event resolves true for confirm,
+// and false for Not Yet or the Escape key.
+
+const collectionDialog = document.getElementById("collection-dialog");
+
+function askCollectionConfirmation() {
+    return new Promise(function(resolve) {
+        collectionDialog.returnValue = "";
+        collectionDialog.addEventListener("close", function() {
+            resolve(collectionDialog.returnValue === "confirm");
+        }, { once: true });
+        collectionDialog.showModal();
+    });
+}
+
 // ===== MANUAL API DEMO BUTTONS =====
 // Event handlers call the SAME real Axios functions as CRUD.
 // GET refreshes orders. PUT saves the current orders array.
