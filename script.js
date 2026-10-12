@@ -1339,28 +1339,30 @@ orderForm.addEventListener("submit", async function(event) {
         updateQuantityButtons();
         showApiFeedback("PUT successful: Order saved to JSONBin.");
 
-        // ===== UPDATE SUCCESS / SCROLL TO CHANGED ORDER =====
-        // querySelectorAll() finds all displayed order cards.
-        // The index identifies the card that was updated.
-        // scrollIntoView() brings that card into view.
+        // ===== CREATE / UPDATE SUCCESS: SCROLL TO ORDER =====
+        // Both actions save to JSONBin before showing success.
+        // targetOrderIndex points to the new or edited order.
+        // DOM selection finds that card, and scrollIntoView()
+        // brings it into view. classList adds a temporary highlight.
+
         if (wasEditing) {
             showOrderNotification("Your order has been updated successfully.");
-
-            const displayedCards = orderList.querySelectorAll(".order-card");
-            const updatedCard = displayedCards[targetOrderIndex];
-
-            if (updatedCard) {
-                updatedCard.classList.add("recently-updated");
-                updatedCard.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center"
-                });
-                setTimeout(function() {
-                    updatedCard.classList.remove("recently-updated");
-                }, 4500);
-            }
         } else {
             showOrderNotification("Your order has been placed successfully.");
+        }
+
+        const displayedCards = orderList.querySelectorAll(".order-card");
+        const savedCard = displayedCards[targetOrderIndex];
+
+        if (savedCard) {
+            savedCard.classList.add("recently-updated");
+            savedCard.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+            setTimeout(function() {
+                savedCard.classList.remove("recently-updated");
+            }, 4500);
         }
 
     }
