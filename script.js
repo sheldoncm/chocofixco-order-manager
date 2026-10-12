@@ -30,6 +30,33 @@
 
 
 // =========================================================
+// ===== REFRESH: RETURN TO HOMEPAGE / SCROLL RESTORATION =====
+// =========================================================
+// Browsers may remember the last scroll position after reload.
+// history.scrollRestoration = "manual" prevents that behaviour.
+// pageshow handles a normal reload and browser back/forward cache.
+// We reset only on a page RELOAD, not after placing/editing orders,
+// so the customer's automatic scroll to their order still works.
+
+if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+}
+
+window.addEventListener("pageshow", function() {
+    const navigationEntries = performance.getEntriesByType("navigation");
+    const wasReloaded = navigationEntries.length > 0 &&
+        navigationEntries[0].type === "reload";
+
+    if (wasReloaded) {
+        window.scrollTo(0, 0);
+        requestAnimationFrame(function() {
+            window.scrollTo(0, 0);
+        });
+    }
+});
+
+
+// =========================================================
 // ===== ARRAY =====
 // =========================================================
 //
