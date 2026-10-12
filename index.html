@@ -272,6 +272,23 @@
         </form>
     </dialog>
 
+    <!-- ===== CUSTOM CANCEL ORDER MODAL / UI UX =====
+         Native HTML dialog styled using the same design as
+         collection confirmation. No browser confirm() popup.
+         form method="dialog" closes with the button's value.
+    -->
+    <dialog id="cancel-dialog" class="collection-dialog" aria-labelledby="cancel-dialog-title" aria-describedby="cancel-dialog-description">
+        <form method="dialog">
+            <p class="eyebrow">ORDER CANCELLATION</p>
+            <h2 id="cancel-dialog-title">Cancel your chocolate order?</h2>
+            <p id="cancel-dialog-description">Are you sure you want to cancel this order? This action cannot be undone.</p>
+            <div class="collection-dialog-actions">
+                <button type="submit" value="cancel" class="collection-dialog-cancel">Keep My Order</button>
+                <button type="submit" value="confirm" class="cancel-dialog-confirm">Yes, Cancel Order</button>
+            </div>
+        </form>
+    </dialog>
+
     <!-- ===== BACK TO TOP ===== -->
     <a class="back-to-top" href="#" aria-label="Back to top" title="Back to top">↑</a>
 
