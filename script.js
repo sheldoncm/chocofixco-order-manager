@@ -1161,6 +1161,29 @@ for (const productOrderLink of productOrderLinks) {
 // addEventListener() connects the event to a function.
 // =========================================================
 
+// ===== CUSTOMER NOTIFICATION / DOM MANIPULATION =====
+// Creates a temporary on-screen message without alert().
+// textContent changes the message; classList controls visibility.
+let orderNotificationTimer;
+
+function showOrderNotification(message) {
+    let notification = document.getElementById("order-notification");
+    if (!notification) {
+        notification = document.createElement("div");
+        notification.id = "order-notification";
+        notification.className = "order-notification";
+        notification.setAttribute("role", "status");
+        notification.setAttribute("aria-live", "polite");
+        document.body.appendChild(notification);
+    }
+    clearTimeout(orderNotificationTimer);
+    notification.textContent = message;
+    notification.classList.add("visible");
+    orderNotificationTimer = setTimeout(function() {
+        notification.classList.remove("visible");
+    }, 4500);
+}
+
 orderForm.addEventListener("submit", async function(event) {
 
 
@@ -1251,6 +1274,11 @@ orderForm.addEventListener("submit", async function(event) {
     // is creating or updating an order.
 
 
+    // Save the target index before resetting editingIndex.
+    // This identifies the updated card after the API responds.
+    const wasEditing = editingIndex !== -1;
+    const targetOrderIndex = wasEditing ? editingIndex : orders.length;
+
     // =====================================================
     // ===== CRUD: CREATE =====
     // =====================================================
@@ -1310,6 +1338,30 @@ orderForm.addEventListener("submit", async function(event) {
 
         updateQuantityButtons();
         showApiFeedback("PUT successful: Order saved to JSONBin.");
+
+        // ===== UPDATE SUCCESS / SCROLL TO CHANGED ORDER =====
+        // querySelectorAll() finds all displayed order cards.
+        // The index identifies the card that was updated.
+        // scrollIntoView() brings that card into view.
+        if (wasEditing) {
+            showOrderNotification("Your order has been updated successfully.");
+
+            const displayedCards = orderList.querySelectorAll(".order-card");
+            const updatedCard = displayedCards[targetOrderIndex];
+
+            if (updatedCard) {
+                updatedCard.classList.add("recently-updated");
+                updatedCard.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+                setTimeout(function() {
+                    updatedCard.classList.remove("recently-updated");
+                }, 4500);
+            }
+        } else {
+            showOrderNotification("Your order has been placed successfully.");
+        }
 
     }
 
