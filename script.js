@@ -888,12 +888,13 @@ function displayOrders() {
         orderImage.classList.add("order-product-image");
         orderImage.src = getOrderProductImage(order.product);
         orderImage.alt = "Chocolate product: " + order.product;
-        orderCard.appendChild(orderImage);
-
+        // innerHTML replaces existing children, so set the text FIRST.
+        // Then prepend the image so it remains visible above the details.
         setOrderCardContent(
             orderCard,
             createOrderCardContent(order)
         );
+        orderCard.prepend(orderImage);
 
         // ===== ORDER COMPLETION STATUS =====
         // A completed order remains in history and cannot be edited.
