@@ -852,3 +852,62 @@ footer p {
         padding: 22px;
     }
 }
+
+
+/* =========================================================
+   ===== CUSTOM MODAL / UI UX / BOX MODEL =====
+   dialog.showModal() is controlled by JavaScript.
+   Padding = space inside the modal.
+   gap = space between the action buttons.
+   ::backdrop styles the dimmed page behind the modal.
+   ========================================================= */
+.collection-dialog {
+    width: min(92vw, 500px);
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid #ead8c8;
+    border-radius: 18px;
+    padding: 32px;
+    background: #fff9f1;
+    color: #4a2115;
+    box-shadow: 0 24px 70px rgba(35, 17, 11, .25);
+}
+.collection-dialog::backdrop {
+    background: rgba(35, 17, 11, .58);
+}
+.collection-dialog h2 {
+    font-size: clamp(25px, 4vw, 32px);
+    line-height: 1.2;
+    margin: 10px 0 16px;
+}
+.collection-dialog #collection-dialog-description {
+    color: #705b50;
+    line-height: 1.65;
+    margin: 0;
+}
+.collection-dialog-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+.collection-dialog-actions button {
+    flex: 1 1 160px;
+    padding: 13px 16px;
+    border: 0;
+    border-radius: 7px;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+.collection-dialog-cancel {
+    background: #eae1db;
+    color: #4a2115;
+}
+.collection-dialog-confirm {
+    background: #386b48;
+    color: white;
+}
+@media (max-width: 700px) {
+    .collection-dialog { padding: 22px; }
+}
