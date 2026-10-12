@@ -987,3 +987,21 @@ footer p {
         text-align: left;
     }
 }
+
+
+/* ===== CANCEL ORDER MODAL / UX STUDY NOTES =====
+   Reuses .collection-dialog for consistent styling.
+   The destructive action has a separate muted red colour.
+   CSS hover/focus-visible are pseudo-classes for interaction.
+*/
+.cancel-dialog-confirm {
+    background: #943c31;
+    color: white;
+}
+.cancel-dialog-confirm:hover {
+    background: #792d24;
+}
+.cancel-dialog-confirm:focus-visible {
+    outline: 3px solid #b76432;
+    outline-offset: 3px;
+}
