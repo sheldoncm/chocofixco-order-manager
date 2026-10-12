@@ -1005,3 +1005,19 @@ footer p {
     outline: 3px solid #b76432;
     outline-offset: 3px;
 }
+
+
+/* ===== FOOTER API LINK / HTML ANCHOR STUDY NOTES =====
+   An <a href> creates a clickable link.
+   target="_blank" opens JSONBin in a new tab.
+   :hover and :focus-visible give accessible interaction feedback.
+*/
+.footer-api-heading a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+.footer-api-heading a:hover,
+.footer-api-heading a:focus-visible {
+    color: #f3c49c;
+}
