@@ -741,6 +741,22 @@ async function saveOrders() {
 // of setOrderCardContent().
 // =========================================================
 
+// ===== PRODUCT IMAGE LOOKUP / OBJECT =====
+// Each product name is matched to an existing local image.
+// The fallback covers older orders named simply "Chocolate".
+const orderProductImages = {
+    "Chocolate Box": "images/chocofixco-products/12_chocolate-box-assorted.jpg",
+    "Chocolate Gift Set": "images/chocofixco-products/04_gift-box-brown.jpg",
+    "Custom Chocolate Order": "images/chocofixco-products/15_chocolate-mendiants.jpg",
+    "Party Pack": "images/chocofixco-products/09_truffles-selection.jpg",
+    "Seasonal Box": "images/chocofixco-products/10_heart-chocolates.jpg"
+};
+
+function getOrderProductImage(product) {
+    return orderProductImages[product] ||
+        "images/chocofixco-products/03_hero.jpg";
+}
+
 function createOrderCardContent(order) {
 
     // || is a LOGICAL OPERATOR.
@@ -865,10 +881,23 @@ function displayOrders() {
         // This directly demonstrates the assessment
         // requirement for function return values.
 
+        // ===== PRODUCT IMAGE / DOM =====
+        // createElement() creates an image element.
+        // src and alt are DOM properties.
+        const orderImage = document.createElement("img");
+        orderImage.classList.add("order-product-image");
+        orderImage.src = getOrderProductImage(order.product);
+        orderImage.alt = "Chocolate product: " + order.product;
+        orderCard.appendChild(orderImage);
+
         setOrderCardContent(
             orderCard,
             createOrderCardContent(order)
         );
+
+        // ===== ORDER COMPLETION STATUS =====
+        // A completed order remains in history and cannot be edited.
+        const isCompleted = order.orderStatus === "Completed";
 
 
         // =================================================
@@ -945,7 +974,9 @@ function displayOrders() {
 
         // Put Edit button into order card.
 
-        orderCard.appendChild(editButton);
+        if (!isCompleted) {
+            orderCard.appendChild(editButton);
+        }
 
 
         // =================================================
@@ -1019,7 +1050,42 @@ function displayOrders() {
 
         // Put Delete button into order card.
 
-        orderCard.appendChild(deleteButton);
+        if (!isCompleted) {
+            orderCard.appendChild(deleteButton);
+
+            // ===== COMPLETE ORDER / CRUD UPDATE =====
+            // Update one object's status, then PUT the array to JSONBin.
+            const completeButton = document.createElement("button");
+            completeButton.textContent = "Complete Order";
+            completeButton.classList.add("complete-button");
+
+            completeButton.addEventListener("click", async function() {
+                const confirmed = confirm("Mark this order as completed?");
+                if (!confirmed) {
+                    return;
+                }
+
+                completeButton.disabled = true;
+                order.orderStatus = "Completed";
+
+                try {
+                    await saveOrders();
+                    displayOrders();
+                    showApiFeedback("PUT successful: Order marked Completed in JSONBin.");
+                } catch (error) {
+                    console.error("Could not complete order:", error);
+                    showApiFeedback("PUT failed: Order completion was not saved.", true);
+                    await getOrders();
+                }
+            });
+
+            orderCard.appendChild(completeButton);
+        } else {
+            const completedLabel = document.createElement("p");
+            completedLabel.classList.add("completed-label");
+            completedLabel.textContent = "✓ Completed order";
+            orderCard.appendChild(completedLabel);
+        }
 
 
         // =================================================
