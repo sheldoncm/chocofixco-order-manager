@@ -309,9 +309,16 @@
             -->
             <div class="footer-api-notes" aria-label="Technology and API summary">
                 <p class="footer-api-heading"><a href="https://jsonbin.io/app/dashboard" target="_blank" rel="noopener noreferrer" aria-label="Open JSONBin dashboard in a new tab">Technology &amp; API <span aria-hidden="true">↗</span></a></p>
+                <!-- ===== LIVE API STATUS / DOM UPDATES =====
+                     JavaScript updates these IDs after real Axios requests.
+                     Status means last observed API result, not a permanent
+                     server connection. No extra polling is required.
+                -->
                 <p>Cloud Data: JSONBin.io REST API</p>
-                <p>HTTP GET: Load Orders</p>
-                <p>HTTP PUT: Save CRUD Changes</p>
+                <p>Connection: <strong id="footer-api-connection" role="status" aria-live="polite">Loading</strong></p>
+                <p>Last API Action: <span id="footer-api-action">GET</span></p>
+                <p>Result: <span id="footer-api-result">Waiting for response</span></p>
+                <p>Last Updated: <time id="footer-api-time">—</time></p>
                 <p>JSON + Axios + async/await</p>
             </div>
         </div>
