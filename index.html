@@ -230,6 +230,23 @@
 
     </main>
 
+    <!-- ===== CUSTOM COLLECTION CONFIRMATION MODAL =====
+         <dialog> is a native HTML element, styled by our CSS.
+         JavaScript showModal() opens it and the close event
+         returns the customer's choice without browser confirm().
+    -->
+    <dialog id="collection-dialog" class="collection-dialog" aria-labelledby="collection-dialog-title" aria-describedby="collection-dialog-description">
+        <form method="dialog">
+            <p class="eyebrow">ORDER COLLECTION</p>
+            <h2 id="collection-dialog-title">Have you collected your chocolates?</h2>
+            <p id="collection-dialog-description">Confirm that you've received your order. Once confirmed, it will be marked as completed and kept in your order history.</p>
+            <div class="collection-dialog-actions">
+                <button type="submit" value="cancel" class="collection-dialog-cancel">Not Yet</button>
+                <button type="submit" value="confirm" class="collection-dialog-confirm">Yes, I've Collected It</button>
+            </div>
+        </form>
+    </dialog>
+
     <!-- ===== BACK TO TOP ===== -->
     <a class="back-to-top" href="#" aria-label="Back to top" title="Back to top">↑</a>
 
