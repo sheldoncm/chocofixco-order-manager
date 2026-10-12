@@ -1027,11 +1027,11 @@ function displayOrders() {
 
         deleteButton.addEventListener("click", async function() {
 
-            // confirm() protects the customer from
-            // cancelling an order by accident.
-
+            // ===== CUSTOM CANCELLATION MODAL =====
+            // await pauses until the customer chooses an option.
+            // This replaces the browser's default confirm().
             const customerConfirmed =
-                confirm("Cancel this order?");
+                await askCancelConfirmation();
 
             if (customerConfirmed === false) {
                 return;
@@ -1054,6 +1054,7 @@ function displayOrders() {
 
                 displayOrders();
                 showApiFeedback("PUT successful: Order cancelled and saved to JSONBin.");
+                showOrderNotification("Your order has been cancelled.");
 
             }
 
@@ -1453,6 +1454,22 @@ function askCollectionConfirmation() {
             resolve(collectionDialog.returnValue === "confirm");
         }, { once: true });
         collectionDialog.showModal();
+    });
+}
+
+// ===== CANCEL ORDER MODAL / ASYNC EVENT / PROMISE =====
+// showModal() opens a branded dialog.
+// The close event returns true only for Yes, Cancel Order.
+// Escape and Keep My Order both return false.
+const cancelDialog = document.getElementById("cancel-dialog");
+
+function askCancelConfirmation() {
+    return new Promise(function(resolve) {
+        cancelDialog.returnValue = "";
+        cancelDialog.addEventListener("close", function() {
+            resolve(cancelDialog.returnValue === "confirm");
+        }, { once: true });
+        cancelDialog.showModal();
     });
 }
 
