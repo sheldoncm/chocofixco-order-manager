@@ -735,3 +735,45 @@ footer p {
         height: 44px;
     }
 }
+
+
+/* =========================================================
+   ===== LIVE REST API DEMO / ASSESSMENT NOTES =====
+   GET = retrieve JSONBin orders.
+   PUT = save the entire orders array to JSONBin.
+   This panel is educational, not a customer checkout step.
+   ========================================================= */
+.api-demo {
+    margin-bottom: 28px;
+    padding: 24px;
+    border-radius: 14px;
+    background: #4a2115;
+    color: #fff9f1;
+}
+.api-demo-label {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    color: #f3c49c;
+}
+.api-demo h3 { color: #fff9f1; margin: 10px 0; }
+.api-demo > p { line-height: 1.5; }
+.api-demo-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+.api-demo-actions button {
+    padding: 12px 16px;
+    border: 0;
+    border-radius: 6px;
+    background: #fff9f1;
+    color: #4a2115;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+.api-demo-actions button:disabled { opacity: .6; cursor: wait; }
+.api-feedback {
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: rgba(255,255,255,.12);
+    overflow-wrap: anywhere;
+}
+.api-feedback.error { background: #7c3029; }
