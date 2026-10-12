@@ -1021,3 +1021,17 @@ footer p {
 .footer-api-heading a:focus-visible {
     color: #f3c49c;
 }
+
+
+/* ===== LIVE API STATUS / ASSESSMENT STUDY NOTES =====
+   JavaScript classList changes the status colour.
+   Green = last HTTP request succeeded.
+   Red = last HTTP request failed.
+   The status is event-driven, without extra polling.
+*/
+.footer-api-notes .api-status-ok {
+    color: #b5e4be;
+}
+.footer-api-notes .api-status-error {
+    color: #ffc0b8;
+}
