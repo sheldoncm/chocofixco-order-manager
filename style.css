@@ -777,3 +777,21 @@ footer p {
     overflow-wrap: anywhere;
 }
 .api-feedback.error { background: #7c3029; }
+
+/* ===== CUSTOMER ORDER PRODUCT IMAGES + COMPLETION ===== */
+.order-product-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 14px;
+}
+.complete-button {
+    background: #386b48;
+    color: white;
+}
+.complete-button:disabled { opacity: .6; cursor: wait; }
+.completed-label {
+    color: #386b48 !important;
+    font-weight: bold;
+}
