@@ -911,3 +911,45 @@ footer p {
 @media (max-width: 700px) {
     .collection-dialog { padding: 22px; }
 }
+
+
+/* =========================================================
+   ===== ORDER UPDATE FEEDBACK / UI UX STUDY NOTES =====
+   position: fixed keeps the notification on screen.
+   margin/padding create readable spacing.
+   .recently-updated visually identifies the changed order.
+   ========================================================= */
+.order-notification {
+    position: fixed;
+    top: 100px;
+    right: 24px;
+    z-index: 100;
+    max-width: min(380px, calc(100vw - 32px));
+    padding: 16px 22px;
+    border-radius: 10px;
+    background: #386b48;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity .2s, transform .2s, visibility .2s;
+}
+.order-notification.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.order-card.recently-updated {
+    border: 2px solid #386b48;
+    box-shadow: 0 0 0 4px rgba(56, 107, 72, .12);
+}
+@media (max-width: 700px) {
+    .order-notification {
+        top: 85px;
+        right: 16px;
+        left: 16px;
+        max-width: none;
+    }
+}
