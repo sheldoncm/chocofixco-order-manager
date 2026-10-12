@@ -570,6 +570,19 @@ collectionDateInput.min =
 // Therefore the array is:
 // data.record.orders
 
+// ===== LIVE API DEMO: DOM + EVENT FEEDBACK =====
+// The lecturer can click GET/PUT and watch the result here.
+// Chrome DevTools > Network shows the real HTTP requests.
+
+const apiFeedback = document.getElementById("api-feedback");
+const apiRefreshButton = document.getElementById("api-refresh");
+const apiSaveButton = document.getElementById("api-save");
+
+function showApiFeedback(message, isError = false) {
+    apiFeedback.textContent = message;
+    apiFeedback.classList.toggle("error", isError);
+}
+
 async function getOrders() {
 
     try {
@@ -603,6 +616,7 @@ async function getOrders() {
         // display the API result in the DOM.
 
         displayOrders();
+        showApiFeedback("GET successful: Orders loaded from JSONBin.");
 
         console.log(
             "GET orders:",
@@ -620,6 +634,7 @@ async function getOrders() {
 
         orderList.innerHTML =
             "<p>Could not load orders.</p>";
+        showApiFeedback("GET failed: Could not load orders.", true);
 
     }
 
@@ -665,6 +680,8 @@ async function saveOrders() {
             headers: JSONBIN_HEADERS
         }
     );
+
+    showApiFeedback("PUT successful: Orders saved to JSONBin.");
 
     console.log(
         "PUT orders:",
@@ -977,6 +994,7 @@ function displayOrders() {
                 await saveOrders();
 
                 displayOrders();
+                showApiFeedback("PUT successful: Order cancelled and saved to JSONBin.");
 
             }
 
@@ -986,6 +1004,7 @@ function displayOrders() {
                     "Could not delete order:",
                     error
                 );
+                showApiFeedback("PUT failed: Order cancellation was not saved.", true);
 
 
                 // Reload the API version so our
@@ -1220,6 +1239,7 @@ orderForm.addEventListener("submit", async function(event) {
         orderForm.reset();
 
         updateQuantityButtons();
+        showApiFeedback("PUT successful: Order saved to JSONBin.");
 
     }
 
@@ -1229,6 +1249,7 @@ orderForm.addEventListener("submit", async function(event) {
             "Could not save order:",
             error
         );
+        showApiFeedback("PUT failed: Order was not saved.", true);
 
         await getOrders();
 
@@ -1260,6 +1281,34 @@ orderForm.addEventListener("submit", async function(event) {
 
 
 // =========================================================
+// ===== MANUAL API DEMO BUTTONS =====
+// Event handlers call the SAME real Axios functions as CRUD.
+// GET refreshes orders. PUT saves the current orders array.
+// We disable both buttons while a request is in progress.
+
+apiRefreshButton.addEventListener("click", async function() {
+    apiRefreshButton.disabled = true;
+    showApiFeedback("GET in progress...");
+    try {
+        await getOrders();
+    } finally {
+        apiRefreshButton.disabled = false;
+    }
+});
+
+apiSaveButton.addEventListener("click", async function() {
+    apiSaveButton.disabled = true;
+    showApiFeedback("PUT in progress...");
+    try {
+        await saveOrders();
+    } catch (error) {
+        console.error("Could not save orders:", error);
+        showApiFeedback("PUT failed: Could not save orders.", true);
+    } finally {
+        apiSaveButton.disabled = false;
+    }
+});
+
 // ===== INITIAL API CALL =====
 // =========================================================
 //
