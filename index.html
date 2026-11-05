@@ -237,17 +237,17 @@
             </div>
 
             <!-- ===== LIVE REST API ASSESSMENT DEMONSTRATION =====
-                 GET retrieves orders from JSONBin.
+                 GET retrieves orders from the MongoDB-backed REST API.
                  PUT saves the complete orders collection.
                  This section is for showing the lecturer the API.
             -->
             <div class="api-demo" aria-label="Live REST API demonstration">
                 <p class="api-demo-label">LIVE REST API · ASSESSMENT DEMO</p>
-                <h3>JSONBin Cloud Data</h3>
-                <p>ChocoFixCo loads and saves orders through asynchronous REST requests.</p>
+                <h3>MongoDB REST API</h3>
+                <p>ChocoFixCo uses asynchronous REST requests to create, retrieve, update and delete orders in MongoDB.</p>
                 <div class="api-demo-actions">
                     <button id="api-refresh" type="button">Refresh Orders (GET)</button>
-                    <button id="api-save" type="button">Save Changes (PUT)</button>
+                    <button id="api-save" type="button">Check API Connection</button>
                 </div>
                 <p id="api-feedback" class="api-feedback" role="status" aria-live="polite">Waiting for API response.</p>
             </div>
@@ -302,19 +302,19 @@
             </div>
 
             <!-- ===== ASSESSMENT: API TECHNOLOGY SUMMARY =====
-                 REST API = communication with JSONBin.
+                 REST API = communication with the ChocoFixCo Express API.
                  GET retrieves orders; PUT saves the orders JSON document.
                  Axios performs HTTP requests with async/await.
                  This is a static technology summary, not a live status.
             -->
             <div class="footer-api-notes" aria-label="Technology and API summary">
-                <p class="footer-api-heading"><a href="https://jsonbin.io/app/dashboard" target="_blank" rel="noopener noreferrer" aria-label="Open JSONBin dashboard in a new tab">Technology &amp; API <span aria-hidden="true">↗</span></a></p>
+                <p class="footer-api-heading">Technology &amp; API</p>
                 <!-- ===== LIVE API STATUS / DOM UPDATES =====
                      JavaScript updates these IDs after real Axios requests.
                      Status means last observed API result, not a permanent
                      server connection. No extra polling is required.
                 -->
-                <p>Cloud Data: JSONBin.io REST API</p>
+                <p>Cloud Data: MongoDB Atlas via Express REST API</p>
                 <p>Connection: <strong id="footer-api-connection" role="status" aria-live="polite">Loading</strong></p>
                 <p>Last API Action: <span id="footer-api-action">GET</span></p>
                 <p>Result: <span id="footer-api-result">Waiting for response</span></p>

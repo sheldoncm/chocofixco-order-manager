@@ -645,122 +645,82 @@ function showApiFeedback(message, isError = false) {
 }
 
 async function getOrders() {
-
     updateFooterApiStatus("GET", "Loading orders...", "Loading");
 
     try {
-
-        const { data } =
-            await axios.get(
-                JSONBIN_LATEST_URL,
-                {
-                    headers: JSONBIN_HEADERS
-                }
-            );
-
-        // ===== ARRAY CHECK =====
-
-        if (Array.isArray(data.record.orders)) {
-
-            orders =
-                data.record.orders;
-
+        const { data } = await axios.get(API_ORDERS_URL);
+        if (!Array.isArray(data)) {
+            throw new Error("Invalid API response");
         }
 
-        else {
-
-            orders =
-                [];
-
-        }
-
-
-        // Function call:
-        // display the API result in the DOM.
+        // Legacy records are preserved in MongoDB but excluded from
+        // this frontend until they use the supported order schema.
+        orders = data.filter(order =>
+            typeof order.product === "string" &&
+            typeof order.collectionDate === "string"
+        );
 
         displayOrders();
-        showApiFeedback("GET successful: Orders loaded from JSONBin.");
+        showApiFeedback("GET successful: Orders loaded from MongoDB.");
         updateFooterApiStatus("GET", "Success", "Connected");
-
-        console.log(
-            "GET orders:",
-            orders
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Could not load orders:",
-            error
-        );
-
-        orderList.innerHTML =
-            "<p>Could not load orders.</p>";
+    } catch (error) {
+        console.error("Could not load orders:", error);
         showApiFeedback("GET failed: Could not load orders.", true);
         updateFooterApiStatus("GET", "Failed", "Error");
-
+        throw error;
     }
-
 }
 
+async function createOrder(order) {
+    updateFooterApiStatus("POST", "Creating order...", "Loading");
+    try {
+        const { data } = await axios.post(API_ORDERS_URL, order);
+        updateFooterApiStatus("POST", "Success", "Connected");
+        return data;
+    } catch (error) {
+        updateFooterApiStatus("POST", "Failed", "Error");
+        throw error;
+    }
+}
 
-// =========================================================
-// ===== HTTP PUT =====
-// =========================================================
-//
-// JSONBin stores ONE JSON document:
-//
-// {
-//     "orders": [ ... ]
-// }
-//
-// Our application changes objects inside the orders array,
-// then PUT saves the complete updated document.
-//
-// IMPORTANT ORAL ANSWER:
-//
-// The app has CRUD functionality for individual orders.
-//
-// JSONBin itself stores the orders as one document,
-// therefore Create/Edit/Delete modify the JavaScript array
-// and HTTP PUT persists the changed array.
-//
-// Calling JSONBin DELETE would delete the whole bin,
-// not one order.
-
-async function saveOrders() {
-
-    updateFooterApiStatus("PUT", "Saving orders...", "Loading");
-
-    const updatedData = {
-
-        orders: orders
-
-    };
+async function updateOrder(order) {
+    if (!order._id) throw new Error("Missing MongoDB order ID");
+    updateFooterApiStatus("PUT", "Updating order...", "Loading");
 
     try {
-        await axios.put(
-            JSONBIN_URL,
-            updatedData,
-            {
-                headers: JSONBIN_HEADERS
-            }
+        const { data } = await axios.put(
+            `${API_ORDERS_URL}/${encodeURIComponent(order._id)}`,
+            order
         );
-        showApiFeedback("PUT successful: Orders saved to JSONBin.");
         updateFooterApiStatus("PUT", "Success", "Connected");
+        return data;
     } catch (error) {
         updateFooterApiStatus("PUT", "Failed", "Error");
-        throw error; // The calling CRUD handler still handles the error.
+        throw error;
     }
-
-    console.log(
-        "PUT orders:",
-        orders
-    );
-
 }
+
+async function deleteOrder(order) {
+    if (!order._id) throw new Error("Missing MongoDB order ID");
+    updateFooterApiStatus("DELETE", "Cancelling order...", "Loading");
+
+    try {
+        await axios.delete(
+            `${API_ORDERS_URL}/${encodeURIComponent(order._id)}`
+        );
+        updateFooterApiStatus("DELETE", "Success", "Connected");
+    } catch (error) {
+        updateFooterApiStatus("DELETE", "Failed", "Error");
+        throw error;
+    }
+}
+
+// Retained for the API demonstration button.
+// Never overwrite the entire MongoDB orders collection.
+async function saveOrders() {
+    await getOrders();
+}
+
 
 
 // =========================================================
@@ -1087,7 +1047,7 @@ function displayOrders() {
             //
             // splice() changes the array.
 
-            orders.splice(index, 1);
+            // The database record is removed only after DELETE succeeds.
 
 
             // HTTP PUT saves the changed array
@@ -1095,10 +1055,10 @@ function displayOrders() {
 
             try {
 
-                await saveOrders();
-
+                await deleteOrder(order);
+                orders.splice(index, 1);
                 displayOrders();
-                showApiFeedback("PUT successful: Order cancelled and saved to JSONBin.");
+                showApiFeedback("PUT successful: Order cancelled in MongoDB.");
                 showOrderNotification("Your order has been cancelled.");
 
             }
@@ -1143,12 +1103,12 @@ function displayOrders() {
                 }
 
                 completeButton.disabled = true;
-                order.orderStatus = "Completed";
+                const completedOrder = { ...order, orderStatus: "Completed" };
 
                 try {
-                    await saveOrders();
+                    orders[index] = await updateOrder(completedOrder);
                     displayOrders();
-                    showApiFeedback("PUT successful: Collection confirmed and order updated in JSONBin.");
+                    showApiFeedback("PUT successful: Collection confirmed in MongoDB.");
                 } catch (error) {
                     console.error("Could not complete order:", error);
                     showApiFeedback("PUT failed: Order completion was not saved.", true);
@@ -1360,7 +1320,7 @@ orderForm.addEventListener("submit", async function(event) {
 
         // push() adds the object to the ARRAY.
 
-        orders.push(order);
+        // Created record will be appended after POST succeeds.
 
     }
 
@@ -1371,8 +1331,8 @@ orderForm.addEventListener("submit", async function(event) {
 
     else {
 
-        orders[editingIndex] =
-            order;
+        order._id = orders[editingIndex]._id;
+        order.createdAt = orders[editingIndex].createdAt;
 
         editingIndex =
             -1;
@@ -1395,8 +1355,11 @@ orderForm.addEventListener("submit", async function(event) {
         //
         // await waits until saveOrders() finishes.
 
-        await saveOrders();
-
+        if (wasEditing) {
+            orders[targetOrderIndex] = await updateOrder(order);
+        } else {
+            orders.push(await createOrder(order));
+        }
 
         // =================================================
         // ===== CRUD: READ / DOM UPDATE =====
@@ -1410,7 +1373,7 @@ orderForm.addEventListener("submit", async function(event) {
         orderForm.reset();
 
         updateQuantityButtons();
-        showApiFeedback("PUT successful: Order saved to JSONBin.");
+        showApiFeedback("PUT successful: Order saved to MongoDB.");
 
         // ===== CREATE / UPDATE SUCCESS: SCROLL TO ORDER =====
         // Both actions save to JSONBin before showing success.
@@ -1535,12 +1498,12 @@ apiRefreshButton.addEventListener("click", async function() {
 
 apiSaveButton.addEventListener("click", async function() {
     apiSaveButton.disabled = true;
-    showApiFeedback("PUT in progress...");
+    showApiFeedback("Synchronising orders...");
     try {
         await saveOrders();
     } catch (error) {
         console.error("Could not save orders:", error);
-        showApiFeedback("PUT failed: Could not save orders.", true);
+        showApiFeedback("GET failed: Could not refresh orders.", true);
     } finally {
         apiSaveButton.disabled = false;
     }
